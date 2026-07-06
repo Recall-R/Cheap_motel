@@ -1,0 +1,37 @@
+ Unity generated folders
+Temp/
+Logs/
+
+# De obicei se ignoră și acestea
+Library/
+Obj/
+Build/
+Builds/
+UserSettings/
+
+Assets/OutdoorsScene/*
+Assets/OutdoorsScene/*.CellOptionalData.bytes
+Assets/OutdoorsScene/*.CellSupportData.bytes
+Assets/OutdoorsScene/*.CellData.bytes
+Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellData.bytes
+Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellData.bytes.meta
+Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellOptionalData.bytes
+Assets/OutdoorsScene/*.CellOptionalData.bytes.meta
+Assets/OutdoorsScene/*.CellBricksData.bytes
+Assets/OutdoorsScene/OutdoorsScene Baking Set.CellBricksData.bytes.meta
+Assets/OutdoorsScene/*.CellSharedData.bytes
+Assets/OutdoorsScene/OutdoorsScene Baking Set.CellSharedData.bytes.meta
+Assets/OutdoorsScene/*.CellSupportData.bytes
+Assets/OutdoorsScene/*.CellSupportData.bytes.meta
+Assets/OutdoorsScene/*.asset
+Assets/OutdoorsScene/OutdoorsScene Baking Set.asset.meta
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.vscode/

@@ -1,0 +1,19 @@
+{  
+    "news": [
+    {
+        "title": "New Motel Opening Soon",
+        "topic": "Grand Opening",
+        "content": "We are excited to announce the grand opening of our new motel location next month. Stay tuned for more details!"
+    },
+    {
+        "title": "Special Discount for Early Bookings",
+        "topic": "Promotions",  
+        "content": "Book your stay in advance and enjoy a special discount on your room rates. Offer valid until the end of the month."
+    },
+    {
+        "title": "Renovation Updates",
+        "topic": "Renovations",
+        "content": "Our motel is undergoing renovations to improve your experience. We appreciate your patience during this time."
+    }
+    ]
+}
