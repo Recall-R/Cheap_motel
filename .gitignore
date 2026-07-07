@@ -9,6 +9,8 @@ Build/
 Builds/
 UserSettings/
 
+Assets/UMA*
+Assets/UMA
 Assets/OutdoorsScene/*
 Assets/OutdoorsScene/*.CellOptionalData.bytes
 Assets/OutdoorsScene/*.CellSupportData.bytes
