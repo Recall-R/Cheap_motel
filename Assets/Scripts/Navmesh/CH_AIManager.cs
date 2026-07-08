@@ -3,11 +3,8 @@ using CH_AICharacter;
 using System.Collections.Generic;
 public class CH_AIManager : MonoBehaviour
 {
- //   [SerializeField]
-//    private CH_AICharacterClass _aiCharacter = new CH_AICharacterClass();
-
     [SerializeField]
-    private List<CH_AICharacterClass> _aiCharacters = new List<CH_AICharacterClass>();
+    private CH_AICharacterClass _aiCharacter = new CH_AICharacterClass();
 
     [SerializeField]
     private GameObject CH_SpawnPoint;
@@ -20,7 +17,7 @@ public class CH_AIManager : MonoBehaviour
             return;
         }
 
-       // _aiCharacter.InvokeCharacter(CH_SpawnPoint.transform.position);
+        _aiCharacter.InvokeCharacter(CH_SpawnPoint.transform.position); 
     }
 
 }

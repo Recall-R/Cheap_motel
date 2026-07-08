@@ -27,9 +27,6 @@ namespace CH_AICharacter
         // movement variables for StartMovement()
         [Header("Movement")]
         [SerializeField]
-        private Transform firstTarget; 
-
-        [SerializeField]
         private Transform customDestination;
 
         [SerializeField]
@@ -75,7 +72,7 @@ namespace CH_AICharacter
                 driver = characterInstance.AddComponent<CH_AICharacterMovementDriver>();
             }
 
-            driver.Initialize(agent, firstTarget, customDestination, secondaryTargets, selectedSecondaryIndex, arrivalDistance);
+            driver.Initialize(agent, customDestination, secondaryTargets, selectedSecondaryIndex, arrivalDistance);
         }
     }
 }

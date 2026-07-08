@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2826b737d57816488a2eb9dc4fe7d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CH_AICharacterMovementDriver
-  agent: {fileID: 7474085636898538515}
+  agent: {fileID: 0}
   firstTarget: {fileID: 0}
   customDestination: {fileID: 0}
   secondaryTargets: []
