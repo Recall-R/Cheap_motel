@@ -54,6 +54,10 @@ namespace CH_AICharacter
             GameObject instance = Object.Instantiate(prefab, spawnPosition, Quaternion.identity);
             instance.name = string.IsNullOrEmpty(characterName) ? characterType.ToString() : characterName;
             AttachMovementDriver(instance);
+            if(instance.gameObject.activeSelf == false)
+            {
+                instance.gameObject.SetActive(true);
+            }
         }
 
         // This method attaches the movement driver to the instantiated character and initializes it with the movement parameters from CH_AICharacterMovemen

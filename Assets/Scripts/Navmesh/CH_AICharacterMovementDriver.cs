@@ -2,8 +2,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 
-public class CH_AICharacterMovementDriver : MonoBehaviour
+
+namespace CH_AICharacter
 {
+public class CH_AICharacterMovementDriver : MonoBehaviour
+{    
     [SerializeField]
     private NavMeshAgent agent;
     [SerializeField]
@@ -14,9 +17,17 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
     private int selectedSecondaryIndex;
     [SerializeField]
     private float arrivalDistance;
-
+    private bool isFirstSpawn = false;
+    private bool isMovingToRoom = false;
+    private bool isInQueue = false;
+    private bool hasReachedCurrentDestination = false;
+    private int currentRoomIndex = -1;
     private readonly Dictionary<int, Transform> movementTargets = new Dictionary<int, Transform>();
     private int currentTargetKey;
+    private CH_AICharacterQueueManager queueManager;
+
+    [HideInInspector]
+    public int QueueIndex = -1;
 
     public void Initialize(NavMeshAgent agent, Transform customDestination, Transform[] secondaryTargets, int selectedSecondaryIndex, float arrivalDistance)
     {
@@ -26,10 +37,12 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
         this.selectedSecondaryIndex = Mathf.Clamp(selectedSecondaryIndex, 0, secondaryTargets != null ? secondaryTargets.Length - 1 : 0);
         this.arrivalDistance = Mathf.Max(0.1f, arrivalDistance);
 
+        queueManager = CH_AICharacterQueueManager.Instance;
+        if (queueManager == null)
+            queueManager = FindObjectOfType<CH_AICharacterQueueManager>();
+
         BuildMovementTargets();
         BeginMovement();
-
-        MoveToRoom(0);
     }
 
     private void BeginMovement()
@@ -53,43 +66,33 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
+        if(isFirstSpawn == false)
         {
+            isFirstSpawn = true;
             MoveToRoom(0);
-            return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            MoveToRoom(1);
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            MoveToRoom(2);
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            MoveToRoom(3);
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            MoveToRoom(4);
-            return;
-        }
-
-        if (agent == null || agent.pathPending)
+        if (agent == null || agent.pathPending || agent.isStopped)
             return;
 
         if (agent.remainingDistance <= arrivalDistance)
         {
-            MoveToNextTarget();
+            if (!hasReachedCurrentDestination)
+            {
+                hasReachedCurrentDestination = true;
+                if (isMovingToRoom)
+                {
+                    HandleRoomArrival();
+                }
+                else
+                {
+                    MoveToNextTarget();
+                }
+            }
+        }
+        else
+        {
+            hasReachedCurrentDestination = false;
         }
     }
 
@@ -139,7 +142,7 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
         agent.SetDestination(target.position);
     }
 
-    private void MoveToRoom(int targetRoomIndex)
+    public void MoveToRoom(int targetRoomIndex)
     {
         if (agent == null)
         {
@@ -152,6 +155,11 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
             return;
         }
 
+        if (isInQueue && targetRoomIndex != currentRoomIndex)
+        {
+            ExitQueue();
+        }
+
         CH_RoomManager room = FindRoomByIndex(targetRoomIndex);
         if (room == null || room.MovementPoint == null)
         {
@@ -159,7 +167,53 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
             return;
         }
 
+        currentRoomIndex = targetRoomIndex;
+        isMovingToRoom = true;
+        hasReachedCurrentDestination = false;
+
+        agent.isStopped = false;
         agent.SetDestination(room.MovementPoint.position);
+    }
+
+    private void HandleRoomArrival()
+    {
+        if (currentRoomIndex == 0)
+        {
+            EnterQueue();
+        }
+        else
+        {
+            ExitQueue();
+        }
+    }
+
+    private void EnterQueue()
+    {
+        if (isInQueue)
+            return;
+
+        isInQueue = true;
+        queueManager?.EnterQueue(gameObject);
+
+        if (agent != null)
+        {
+            agent.isStopped = true;
+        }
+    }
+
+    private void ExitQueue()
+    {
+        if (!isInQueue)
+            return;
+
+        isInQueue = false;
+        QueueIndex = -1;
+        queueManager?.ExitQueue(gameObject);
+
+        if (agent != null)
+        {
+            agent.isStopped = false;
+        }
     }
 
     private CH_RoomManager FindRoomByIndex(int targetRoomIndex)
@@ -208,4 +262,5 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
 
         driver.Initialize(agent, customDestination, secondaryTargets, selectedSecondaryIndex, arrivalDistance);
     }
+}
 }
