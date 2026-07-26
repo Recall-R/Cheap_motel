@@ -1537,6 +1537,7 @@ GameObject:
   - component: {fileID: 6754759869824523928}
   - component: {fileID: 7698352204716225694}
   - component: {fileID: 6137277414725544425}
+  - component: {fileID: 2953719880335613133}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1657,6 +1658,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!65 &2953719880335613133
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7142056712336725171}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 89.191216, y: 38.14993, z: 7.6548057}
+  m_Center: {x: 9.359893, y: 1.3371975, z: -2.0167851}
 --- !u!1 &7154545418252340802
 GameObject:
   m_ObjectHideFlags: 0
@@ -2170,6 +2192,7 @@ GameObject:
   - component: {fileID: 1111761713390182815}
   - component: {fileID: 5268488841367223539}
   - component: {fileID: 7307908246163222143}
+  - component: {fileID: 2832853763810621127}
   m_Layer: 5
   m_Name: Admin
   m_TagString: Untagged
@@ -2304,6 +2327,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CM_ComputerIconClass
   computerDialog: {fileID: 1584843584970662527}
+--- !u!65 &2832853763810621127
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8797017677760906301}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 141.74132, y: 127.222534, z: 3.5381997}
+  m_Center: {x: -5.38056, y: -1.9919872, z: -1.2691004}
 --- !u!1 &8798000794314943469
 GameObject:
   m_ObjectHideFlags: 0

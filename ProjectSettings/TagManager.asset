@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UMAKeepChain
   - UMAIgnore
+  - Interactable
   layers:
   - Default
   - TransparentFX

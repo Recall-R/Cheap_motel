@@ -161,9 +161,9 @@ Material:
     - _CullModeForward: 2
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
-    - _DetailAlbedoScale: 1
-    - _DetailNormalScale: 1
-    - _DetailSmoothnessScale: 1
+    - _DetailAlbedoScale: 1.09
+    - _DetailNormalScale: 0.85
+    - _DetailSmoothnessScale: 1.44
     - _DiffusionProfile: 0
     - _DiffusionProfileHash: 0
     - _DisplacementLockObjectScale: 1
@@ -232,8 +232,8 @@ Material:
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
     - _Smoothness: 0.5
-    - _SmoothnessRemapMax: 0.7679765
-    - _SmoothnessRemapMin: 0.3019802
+    - _SmoothnessRemapMax: 0.7057754
+    - _SmoothnessRemapMin: 0.23977923
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
     - _SpecularOcclusionMode: 1

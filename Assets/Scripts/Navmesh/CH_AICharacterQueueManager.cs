@@ -28,6 +28,11 @@ public class CH_AICharacterQueueManager : MonoBehaviour
         }
     }
 
+    public int GetQueueCount()
+    {
+        return queueObjects.Count;
+    }
+
     private void OnDestroy()
     {
         if (Instance == this)
