@@ -1,0 +1,36 @@
+{
+  "client": {
+    "origin": "Where are you from? From the road outside the motel, looking for a place to stay.",
+    "stay": "How long do you stay? Just for one night, then I leave.",
+    "appearance": "What do you look like? Plain, ordinary, hard to remember.",
+    "payment": "Payment: cash or card, depending on the mood."
+  },
+  "killer": {
+    "butcher": {
+      "origin": "Where are you from? From the service corridor and the old storage rooms.",
+      "stay": "How long do you stay? Only until the night is done with me.",
+      "appearance": "What do you look like? A heavy figure, carrying the weight of the night.",
+      "payment": "Payment: cash only."
+    },
+    "watcher": {
+      "origin": "Where are you from? From the upper floor, keeping watch from the shadows.",
+      "stay": "How long do you stay? I stay until I know who is really here.",
+      "appearance": "What do you look like? Quiet, patient, difficult to pin down.",
+      "payment": "Payment: card, or at least they talk like they would."
+    },
+    "drifter": {
+      "origin": "Where are you from? From the outskirts, drifting in without a clear path.",
+      "stay": "How long do you stay? Long enough to disappear before sunrise.",
+      "appearance": "What do you look like? Ragged, tired, and hard to remember.",
+      "payment": "Payment: cash or card, depending on the mood."
+    }
+  },
+  "traits": {
+    "no_eye_contact": "avoids eye contact",
+    "muddy_clothes": "wears muddy clothes",
+    "cash_only": "looks like they pay in cash",
+    "no_luggage": "carries no luggage",
+    "shy_apology": "speaks with a shy apology",
+    "mentions_lost_card": "mentions a lost card"
+  }
+}

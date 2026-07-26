@@ -1,7 +1,11 @@
+using System;
+using CH_AICharacter;
 using UnityEngine;
 
 public class CH_RaycastObjects : MonoBehaviour
 {
+    public static event Action<GameObject> OnObjectClicked;
+
     [Tooltip("Tag obiectului pe care îl căutăm cu raycast-ul.")]
     public string targetTag = "Interactable";
 
@@ -13,7 +17,7 @@ public class CH_RaycastObjects : MonoBehaviour
 
     private Camera mainCamera;
 
-    void Start()
+    private void Start()
     {
         mainCamera = Camera.main;
 
@@ -23,35 +27,52 @@ public class CH_RaycastObjects : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         Cursor.lockState = CursorLockMode.None;
         if (mainCamera == null)
             return;
 
+        if (!Input.GetMouseButtonDown(0))
+            return;
+
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        if (!Physics.Raycast(ray, out RaycastHit hit, maxDistance, raycastMask))
+            return;
 
-        if (Physics.Raycast(ray, out hit, maxDistance, raycastMask))
+        GameObject hitObject = hit.collider != null ? hit.collider.gameObject : hit.transform?.gameObject;
+        if (hitObject == null)
+            return;
+
+        CH_IInteractable interactable = hitObject.GetComponent<CH_IInteractable>() ?? hitObject.GetComponentInParent<CH_IInteractable>();
+        bool hasSuspicionState = hitObject.GetComponent<CH_NPCSuspicionState>() != null || hitObject.GetComponentInParent<CH_NPCSuspicionState>() != null;
+        bool isInteractive = hitObject.CompareTag(targetTag) || interactable != null || hasSuspicionState;
+
+        if (!isInteractive)
+            return;
+
+        if (interactable != null)
         {
-            if (hit.collider.CompareTag(targetTag))
-            {
-                if (Input.GetMouseButtonDown(0)) // Verifică dacă s-a apăsat butonul stâng al mouse-ului
-                {
-                    hit.collider.GetComponent<CH_IInteractable>()?.SetInteractionType(CH_IInteractable.Interaction.GetToComputer);
-                }
-            }
+            interactable.Interact();
+            OnObjectClicked?.Invoke(hitObject);
+            return;
         }
-    }
 
-    private void OnTaggedObjectHit(GameObject taggedObject)
-    {
-        Debug.Log($"CH_RaycastObjects: Am găsit obiectul cu tag '{targetTag}' => {taggedObject.name}");
-
-        Renderer renderer = taggedObject.GetComponent<Renderer>();
-        if (renderer != null)
+        if (hasSuspicionState)
         {
-            renderer.material.color = Color.yellow;
+            CH_IInteractable interactableForDialog = hitObject.GetComponent<CH_IInteractable>() ?? hitObject.GetComponentInParent<CH_IInteractable>();
+            if (interactableForDialog != null)
+            {
+                interactableForDialog.TriggerInteraction(CH_IInteractable.Interaction.CharacterDialog);
+            }
+            else
+            {
+                CH_IInteractable interactableFallback = hitObject.AddComponent<CH_IInteractable>();
+                interactableFallback.SetInteractionType(CH_IInteractable.Interaction.CharacterDialog);
+                interactableFallback.TriggerInteraction(CH_IInteractable.Interaction.CharacterDialog);
+            }
+
+            OnObjectClicked?.Invoke(hitObject);
         }
     }
 }

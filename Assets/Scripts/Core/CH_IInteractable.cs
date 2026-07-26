@@ -6,29 +6,62 @@ public class CH_IInteractable : MonoBehaviour
     {
         None,
         GetToComputer,
-        ExitComputer
+        ExitComputer,
+        CharacterDialog
     }
 
     [SerializeField] private Interaction interactionType = Interaction.None;
+
+    public Interaction InteractionType => interactionType;
+
+    public void Interact()
+    {
+        if (interactionType == Interaction.None)
+            return;
+
+        SetInteractionType(interactionType);
+    }
+
+    public void TriggerInteraction(Interaction type)
+    {
+        if (type == Interaction.None)
+            return;
+
+        SetInteractionType(type);
+    }
 
     public void SetInteractionType(Interaction type)
     {
         interactionType = type;
         Debug.Log($"CH_IInteractable: SetInteractionType {type} pe {gameObject.name}");
 
-        if (CH_RenderingMonitor.Instance == null)
-        {
-            Debug.LogWarning("CH_IInteractable: CH_RenderingMonitor.Instance este null. Verifică dacă componenta CH_RenderingMonitor este activă în scenă.");
-            return;
-        }
-
         if (interactionType == Interaction.GetToComputer)
         {
+            if (CH_RenderingMonitor.Instance == null)
+            {
+                Debug.LogWarning("CH_IInteractable: CH_RenderingMonitor.Instance este null. Verifică dacă componenta CH_RenderingMonitor este activă în scenă.");
+                return;
+            }
+
             CH_RenderingMonitor.Instance.OnEnterMonitor();
         }
         else if (interactionType == Interaction.ExitComputer)
         {
+            if (CH_RenderingMonitor.Instance == null)
+            {
+                Debug.LogWarning("CH_IInteractable: CH_RenderingMonitor.Instance este null. Verifică dacă componenta CH_RenderingMonitor este activă în scenă.");
+                return;
+            }
+
             CH_RenderingMonitor.Instance.OnExitMonitor();
+        }
+        else if (interactionType == Interaction.CharacterDialog)
+        {
+            CH_DialogClients dialogClient = GetComponent<CH_DialogClients>() ?? GetComponentInParent<CH_DialogClients>() ?? FindAnyObjectByType<CH_DialogClients>();
+            if (dialogClient != null)
+            {
+                dialogClient.OpenDialogueFor(gameObject);
+            }
         }
     }
 }
