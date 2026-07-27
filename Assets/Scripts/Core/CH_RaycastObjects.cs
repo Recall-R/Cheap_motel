@@ -17,6 +17,8 @@ public class CH_RaycastObjects : MonoBehaviour
 
     private Camera mainCamera;
 
+    [SerializeField] private GameObject interactableDot;
+    
     private void Start()
     {
         mainCamera = Camera.main;
@@ -33,11 +35,16 @@ public class CH_RaycastObjects : MonoBehaviour
         if (mainCamera == null)
             return;
 
-        if (!Input.GetMouseButtonDown(0))
-            return;
-
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, maxDistance, raycastMask))
+        RaycastHit hit;
+        bool hitSomething = Physics.Raycast(ray, out hit, maxDistance, raycastMask);
+
+        if (interactableDot != null)
+        {
+            interactableDot.SetActive(false);
+        }
+
+        if (!hitSomething)
             return;
 
         GameObject hitObject = hit.collider != null ? hit.collider.gameObject : hit.transform?.gameObject;
@@ -49,6 +56,14 @@ public class CH_RaycastObjects : MonoBehaviour
         bool isInteractive = hitObject.CompareTag(targetTag) || interactable != null || hasSuspicionState;
 
         if (!isInteractive)
+            return;
+
+        if (interactableDot != null)
+        {
+            interactableDot.SetActive(true);
+        }
+
+        if (!Input.GetMouseButtonDown(0))
             return;
 
         if (interactable != null)

@@ -49,19 +49,47 @@ public class CH_DialogClients : MonoBehaviour
         if (dialogPanel != null)
             dialogPanel.SetActive(false);
 
-        if (subtitleText != null)
-            subtitleText.text = string.Empty;
-            subtitleText.enabled = false;
-
         CH_Manager.Instance?.SetFPSControllerActive(true);
         CH_Manager.Instance?.SetCursorLockState(true);
+    }
+
+    private void HideDialogueButtons()
+    {
+        if (originButton != null)
+            originButton.gameObject.SetActive(false);
+
+        if (stayButton != null)
+            stayButton.gameObject.SetActive(false);
+
+        if (appearanceButton != null)
+            appearanceButton.gameObject.SetActive(false);
+
+        if (paymentButton != null)
+            paymentButton.gameObject.SetActive(false);
+    }
+
+    private void ShowDialogueButtons()
+    {
+        if (originButton != null)
+            originButton.gameObject.SetActive(true);
+
+        if (stayButton != null)
+            stayButton.gameObject.SetActive(true);
+
+        if (appearanceButton != null)
+            appearanceButton.gameObject.SetActive(true);
+
+        if (paymentButton != null)
+            paymentButton.gameObject.SetActive(true);
     }
 
     private void HideSubtitle()
     {
         if (subtitleText != null)
+        {
             subtitleText.text = string.Empty;
             subtitleText.enabled = false;
+        }
     }
 
     private void ShowDialogue(CH_NPCSuspicionProfile profile)
@@ -75,10 +103,11 @@ public class CH_DialogClients : MonoBehaviour
             dialogPanel.SetActive(true);
         }
 
+        ShowDialogueButtons();
 
         if (subtitleText != null)
         {
-            subtitleText.text = "";
+            subtitleText.text = string.Empty;
             subtitleText.enabled = true;
         }
     }
@@ -90,8 +119,8 @@ public class CH_DialogClients : MonoBehaviour
 
         bool isKiller = currentProfile.IsActuallyDangerous && !string.IsNullOrEmpty(currentProfile.DangerType);
         SetSubtitle(BuildOriginLine(currentProfile, isKiller));
-        HideDialog();
-        StartCoroutine(WaitAndHideDialog(2f));
+        HideDialogueButtons();
+        StartCoroutine(WaitAndHideSubtitleAndDialog(2f));
         
     }
 
@@ -102,8 +131,8 @@ public class CH_DialogClients : MonoBehaviour
 
         bool isKiller = currentProfile.IsActuallyDangerous && !string.IsNullOrEmpty(currentProfile.DangerType);
         SetSubtitle(BuildStayLine(currentProfile, isKiller));
-        HideDialog();
-        StartCoroutine(WaitAndHideDialog(2f));
+        HideDialogueButtons();
+        StartCoroutine(WaitAndHideSubtitleAndDialog(2f));
     }
 
     public void OnAppearanceClicked()
@@ -112,8 +141,8 @@ public class CH_DialogClients : MonoBehaviour
             return;
 
         SetSubtitle(BuildAppearanceLine(currentProfile));
-        HideDialog();
-        StartCoroutine(WaitAndHideDialog(2f));
+        HideDialogueButtons();
+        StartCoroutine(WaitAndHideSubtitleAndDialog(2f));
     }
 
     public void OnPaymentClicked()
@@ -122,8 +151,8 @@ public class CH_DialogClients : MonoBehaviour
             return;
 
         SetSubtitle(BuildPaymentLine(currentProfile));
-        HideDialog();
-        StartCoroutine(WaitAndHideDialog(2f));
+        HideDialogueButtons();
+        StartCoroutine(WaitAndHideSubtitleAndDialog(2f));
     }
 
     private void SetSubtitle(string text)
@@ -131,6 +160,7 @@ public class CH_DialogClients : MonoBehaviour
         if (subtitleText != null)
         {
             subtitleText.text = text;
+            subtitleText.enabled = true;
         }
     }
 
@@ -199,10 +229,11 @@ public class CH_DialogClients : MonoBehaviour
         return dialogData.client.payment;
     }
 
-    private IEnumerator WaitAndHideDialog(float waitTime)
+    private IEnumerator WaitAndHideSubtitleAndDialog(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         HideSubtitle();
+        HideDialog();
     }
 
     private DialogResponseData LoadDialogData()
