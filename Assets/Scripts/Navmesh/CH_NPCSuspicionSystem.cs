@@ -63,6 +63,9 @@ namespace CH_AICharacter
 
         [SerializeField] private string[] dangerTypes = new[] { "butcher", "watcher", "drifter" };
 
+
+        [SerializeField] private bool SetConfigDefaultForAllCharacters = false;
+
         public int DangerRate => dangerRate;
         public int RedHerringRate => redHerringRate;
         public int DangerousHighSuspicionChance => dangerousHighSuspicionChance;
@@ -71,6 +74,8 @@ namespace CH_AICharacter
         public int SafeHighSuspicionChance => safeHighSuspicionChance;
         public List<CH_NPCSuspicionTraitDefinition> TraitPool => traitPool;
         public string[] DangerTypes => dangerTypes;
+
+        public bool setConfigDefaultForAllCharacters => SetConfigDefaultForAllCharacters;
     }
 
     public class CH_NPCSuspicionState : MonoBehaviour
@@ -122,6 +127,10 @@ namespace CH_AICharacter
                 config = CreateDefaultConfig();
             }
 
+            if (config.setConfigDefaultForAllCharacters)
+            {
+                config = CreateDefaultConfig();
+            }
             bool isDangerous = RollChance(config.DangerRate);
             bool isHighSuspicion = isDangerous
                 ? RollChance(config.DangerousHighSuspicionChance)

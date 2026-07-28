@@ -2,10 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 
+
 public class CH_RenderingMonitor : MonoBehaviour
 {
     public static CH_RenderingMonitor Instance { get; private set; }
-
+    
     [Header("Camera References")]
     [Tooltip("Camera principală care se mișcă spre monitor.")]
     [SerializeField] private GameObject mainCamera;
@@ -63,6 +64,7 @@ public class CH_RenderingMonitor : MonoBehaviour
             StopCoroutine(transitionCoroutine);
 
         transitionCoroutine = StartCoroutine(TransitionCamera(mainCamera.transform, renderingCamera.transform, true));
+        CH_Manager.Instance.SetGeneralCanvasActive(false);
     }
 
     public void OnExitMonitor()
@@ -82,6 +84,7 @@ public class CH_RenderingMonitor : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Debug.Log("CH_RenderingMonitor: Am ieșit din modul de monitorizare.");
+        CH_Manager.Instance.SetGeneralCanvasActive(true);
     }
 
     private IEnumerator TransitionCamera(Transform cameraTransform, Transform targetTransform, bool enterMonitor)

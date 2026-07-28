@@ -1,14 +1,12 @@
 using UnityEngine;
 
-
 public class CH_Manager : MonoBehaviour {
 
     public static CH_Manager Instance { get; private set; }
 
-
     [SerializeField] private GameObject fpsController;
 
-
+    [SerializeField] private GameObject generalCanvas;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -42,6 +40,19 @@ public class CH_Manager : MonoBehaviour {
         Cursor.lockState = isLocked ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !isLocked;
         return true;
+    }
+
+    public void SetGeneralCanvasActive(bool isActive) {
+        if (generalCanvas == null) {
+            Debug.LogWarning("CH_Manager: generalCanvas nu este setat în inspector.");
+            return;
+        }
+
+        generalCanvas.SetActive(isActive);
+    }
+
+    public void PrintDebugMessage(string message) {
+        Debug.LogWarning($"CH_Manager: {message}");
     }
 
 }

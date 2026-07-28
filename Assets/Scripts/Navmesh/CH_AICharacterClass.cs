@@ -60,6 +60,8 @@ namespace CH_AICharacter
             }
         }
 
+
+    
         // This method attaches the movement driver to the instantiated character and initializes it with the movement parameters from CH_AICharacterMovemen
         private void AttachMovementDriver(GameObject characterInstance)
         {
