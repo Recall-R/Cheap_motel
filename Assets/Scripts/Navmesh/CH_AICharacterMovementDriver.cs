@@ -160,7 +160,7 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
             ExitQueue();
         }
 
-        CH_RoomManager room = FindRoomByIndex(targetRoomIndex);
+        CH_RoomUnit room = FindRoomByIndex(targetRoomIndex);
         if (room == null || room.MovementPoint == null)
         {
             Debug.LogWarning($"No room found for index {targetRoomIndex} or it has no movement point.");
@@ -216,10 +216,10 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
         }
     }
 
-    private CH_RoomManager FindRoomByIndex(int targetRoomIndex)
+    private CH_RoomUnit FindRoomByIndex(int targetRoomIndex)
     {
-        CH_RoomManager[] rooms = FindObjectsOfType<CH_RoomManager>();
-        foreach (CH_RoomManager room in rooms)
+        CH_RoomUnit[] rooms = FindObjectsOfType<CH_RoomUnit>();
+        foreach (CH_RoomUnit room in rooms)
         {
             if (room != null && room.RoomIndex == targetRoomIndex)
             {

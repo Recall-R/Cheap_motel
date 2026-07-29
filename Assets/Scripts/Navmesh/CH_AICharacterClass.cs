@@ -54,6 +54,7 @@ namespace CH_AICharacter
             instance.name = generatedName;
             AttachMovementDriver(instance);
             AttachSuspicionState(instance, generatedName);
+            ApplyRandomWardrobe(instance);
             if(instance.gameObject.activeSelf == false)
             {
                 instance.gameObject.SetActive(true);
@@ -97,6 +98,19 @@ namespace CH_AICharacter
             suspicionState.Initialize(profile);
 
             Debug.Log($"[{characterInstance.name}] Suspicion profile generated: {suspicionState.GetSummary()}");
+        }
+
+        private void ApplyRandomWardrobe(GameObject characterInstance)
+        {
+            if (characterInstance == null)
+                return;
+
+            CH_clothesCharacter clothesCharacter = characterInstance.GetComponent<CH_clothesCharacter>();
+            if (clothesCharacter == null)
+            {
+                clothesCharacter = characterInstance.AddComponent<CH_clothesCharacter>();
+            }
+
         }
 
         private string GenerateRandomCharacterName()

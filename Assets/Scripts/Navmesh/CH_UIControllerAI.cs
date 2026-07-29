@@ -9,12 +9,12 @@ public class CH_UIControllerAI : MonoBehaviour
 
     void MoveToPoint()
     {
-        // Find the CH_RoomManager component in the scene
-        CH_RoomManager roomManager = FindObjectOfType<CH_RoomManager>();
+        // Find the CH_RoomUnit component in the scene
+        CH_RoomUnit roomManager = FindObjectOfType<CH_RoomUnit>();
 
         if (roomManager == null)
         {
-            Debug.LogWarning("No CH_RoomManager found in the scene.");
+            Debug.LogWarning("No CH_RoomUnit found in the scene.");
             return;
         }
 
@@ -23,7 +23,7 @@ public class CH_UIControllerAI : MonoBehaviour
 
         if (movementPoint == null)
         {
-            Debug.LogWarning("Movement point is not assigned in the CH_RoomManager.");
+            Debug.LogWarning("Movement point is not assigned in the CH_RoomUnit.");
             return;
         }
 
