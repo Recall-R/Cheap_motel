@@ -39,13 +39,14 @@ public class CH_AIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
         {
-            queueManager.MoveFirstInQueueToRoom(0);
+            queueManager.MoveFirstInQueueToRoom(0); // position 0 always the reception
             return;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             queueManager.MoveFirstInQueueToRoom(1);
+            
             return;
         }
 

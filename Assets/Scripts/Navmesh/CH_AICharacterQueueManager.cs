@@ -61,9 +61,15 @@ public class CH_AICharacterQueueManager : MonoBehaviour
             return;
 
         CH_AICharacterMovementDriver driver = firstCharacter.GetComponent<CH_AICharacterMovementDriver>();
+        CH_NPCSuspicionState suspicionState = firstCharacter.GetComponent<CH_NPCSuspicionState>();
         if (driver == null)
             return;
-
+        if (suspicionState.SuspicionProfile.IsActuallyDangerous)
+        {
+            CH_RoomManager.Instance.setIsKillerOnRoom(targetRoomIndex, true);
+        }
+        
+        CH_RoomManager.Instance.setRoomOccupied(targetRoomIndex, true);
         driver.MoveToRoom(targetRoomIndex);
     }
 
