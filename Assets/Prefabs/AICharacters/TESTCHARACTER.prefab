@@ -928,15 +928,7 @@ MonoBehaviour:
   forceRebindAnimator: 0
   preloadWardrobeRecipes:
     loadDefaultRecipes: 1
-    recipes:
-    - _recipeName: MaleShirt1
-      _enabledInDefaultWardrobe: 1
-      _compatibleRaces:
-      - HumanMale
-    - _recipeName: MaleShirt2
-      _enabledInDefaultWardrobe: 1
-      _compatibleRaces:
-      - HumanMale
+    recipes: []
   raceAnimationControllers:
     defaultAnimationController: {fileID: 9100000, guid: eb280940c811fab4a9e3ddf09381c343, type: 2}
     animators: []
@@ -3374,6 +3366,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CH_clothesCharacter
   avatar: {fileID: 3718718342630980605}
+  clothesDictionary:
+  - slot: Chest
+    overlays:
+    - MaleShirt1
+    - MaleShirt2
+    - MaleShirt3
+  - slot: Feet
+    overlays:
+    - MaleRobe Shoes
+  - slot: Legs
+    overlays:
+    - MaleJeans
+    - MaleJeans 1
+  - slot: Beard
+    overlays:
+    - MaleBeard1
+    - MaleBeard2
 --- !u!1 &578922060798467333
 GameObject:
   m_ObjectHideFlags: 0

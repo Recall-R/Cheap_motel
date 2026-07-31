@@ -110,7 +110,7 @@ namespace CH_AICharacter
             {
                 clothesCharacter = characterInstance.AddComponent<CH_clothesCharacter>();
             }
-
+            clothesCharacter.ChangeClothes(clothesCharacter.GetComponent<UMA.UMAData>());
         }
 
         private string GenerateRandomCharacterName()

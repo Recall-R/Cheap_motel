@@ -7,7 +7,8 @@ public class CH_IInteractable : MonoBehaviour
         None,
         GetToComputer,
         ExitComputer,
-        CharacterDialog
+        CharacterDialog,
+        LightSwitch
     }
 
     [SerializeField] private Interaction interactionType = Interaction.None;
@@ -61,6 +62,21 @@ public class CH_IInteractable : MonoBehaviour
             if (dialogClient != null)
             {
                 dialogClient.OpenDialogueFor(gameObject);
+            }
+        }
+        else if (interactionType == Interaction.LightSwitch)
+        {
+            CH_Lights lights = GetComponent<CH_Lights>() ?? GetComponentInParent<CH_Lights>();
+            if (lights != null)
+            {
+                if (lights.getISOn())
+                {
+                    lights.setIsOn(false);
+                }
+                else
+                {
+                    lights.setIsOn(true);
+                }
             }
         }
     }
