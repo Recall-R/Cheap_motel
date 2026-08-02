@@ -54,6 +54,25 @@ public class CH_AICharacterQueueManager : MonoBehaviour
         return queueObjects.Count > 0 ? queueObjects[0] : null;
     }
 
+    public bool IsQueueEmpty()
+    {
+        return queueObjects.Count == 0;
+    }
+
+    public string GetNameOfFirstInQueue()
+    {
+        GameObject firstCharacter = GetFirstInQueue();
+        if (firstCharacter != null)
+        {
+            CH_NPCSuspicionState suspicionState = firstCharacter.GetComponent<CH_NPCSuspicionState>();
+            if (suspicionState != null)
+            {
+                return suspicionState.SuspicionProfile.Id;
+            }
+        }
+        return string.Empty;
+    }
+
     public void MoveFirstInQueueToRoom(int targetRoomIndex)
     {
         GameObject firstCharacter = GetFirstInQueue();
@@ -72,6 +91,7 @@ public class CH_AICharacterQueueManager : MonoBehaviour
         CH_RoomManager.Instance.setRoomOccupied(targetRoomIndex, true);
         driver.MoveToRoom(targetRoomIndex);
     }
+
 
     public void EnterQueue(GameObject character)
     {

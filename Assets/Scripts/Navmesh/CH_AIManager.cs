@@ -37,36 +37,36 @@ public class CH_AIManager : MonoBehaviour
         if (queueManager == null)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
-        {
-            queueManager.MoveFirstInQueueToRoom(0); // position 0 always the reception
-            return;
-        }
+        // if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
+        // {
+        //     queueManager.MoveFirstInQueueToRoom(0); // position 0 always the reception
+        //     return;
+        // }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            queueManager.MoveFirstInQueueToRoom(1);
+        // if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+        // {
+        //     queueManager.MoveFirstInQueueToRoom(1);
             
-            return;
-        }
+        //     return;
+        // }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            queueManager.MoveFirstInQueueToRoom(2);
-            return;
-        }
+        // if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+        // {
+        //     queueManager.MoveFirstInQueueToRoom(2);
+        //     return;
+        // }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            queueManager.MoveFirstInQueueToRoom(3);
-            return;
-        }
+        // if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+        // {
+        //     queueManager.MoveFirstInQueueToRoom(3);
+        //     return;
+        // }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            queueManager.MoveFirstInQueueToRoom(4);
-            return;
-        }
+        // if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+        // {
+        //     queueManager.MoveFirstInQueueToRoom(4);
+        //     return;
+        // }
     }
 
 }

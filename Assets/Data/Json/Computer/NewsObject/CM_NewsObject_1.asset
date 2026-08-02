@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f529f77061b2d524fab376bdf38a8df3, type: 3}
   m_Name: CM_NewsObject_1
   m_EditorClassIdentifier: Assembly-CSharp::CM_NewsItem
-  title: FBI ANNOUNCEMENT !! IMPORTANT
+  title: Police Announcement
   content: 'A thief it''s free after ran from police
 
     --------------------------------------------------------'

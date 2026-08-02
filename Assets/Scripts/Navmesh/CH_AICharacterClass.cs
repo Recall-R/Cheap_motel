@@ -115,9 +115,8 @@ namespace CH_AICharacter
 
         private string GenerateRandomCharacterName()
         {
-            string prefix = killerPrefab != null ? "Butcher" : "Guest";
             string randomName = LoadRandomNameFromJson();
-            return string.IsNullOrEmpty(randomName) ? $"{prefix}_{UnityEngine.Random.Range(100, 999)}" : $"{prefix}_{randomName}";
+            return string.IsNullOrEmpty(randomName) ? $"{UnityEngine.Random.Range(100, 999)}" : $"{randomName}";
         }
 
         private string LoadRandomNameFromJson()

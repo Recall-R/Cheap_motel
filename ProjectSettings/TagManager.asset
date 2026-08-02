@@ -7,6 +7,9 @@ TagManager:
   - UMAKeepChain
   - UMAIgnore
   - Interactable
+  - NPC
+  - DecisionDoor
+  - Door
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,8 @@ public class CH_RoomUnit : MonoBehaviour
     [SerializeField] private bool isOccupied = false;
     [SerializeField] private bool isKillerOnRoom = false;
 
+    [SerializeField] private GameObject npcCharacter;
+
     public int RoomIndex => roomIndex;
     public Transform MovementPoint => movementPoint;
     public bool IsOccupied => isOccupied;
@@ -25,6 +27,11 @@ public class CH_RoomUnit : MonoBehaviour
     public void setKillerOnRoom(bool killeronroom)
     {
         isKillerOnRoom = killeronroom;
+    }
+
+    public void setNpcCharacter(GameObject character)
+    {
+        npcCharacter = character;
     }
 
 }

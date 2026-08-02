@@ -23,7 +23,7 @@ public class CH_RenderingMonitor : MonoBehaviour
 
     private Vector3 originalPosition;
     private Quaternion originalRotation;
-    private bool originalSaved;
+    [SerializeField] private bool originalSaved;
     private Coroutine transitionCoroutine;
 
     private void Awake()
@@ -55,7 +55,7 @@ public class CH_RenderingMonitor : MonoBehaviour
             Debug.LogWarning("CH_RenderingMonitor: Nu se poate intra în monitor deoarece referințele nu sunt setate.");
             return;
         }
-
+        CH_RoomManager.Instance.setNameInputFieldReadOnly(false);
         originalPosition = mainCamera.transform.position;
         originalRotation = mainCamera.transform.rotation;
         originalSaved = true;
@@ -85,6 +85,7 @@ public class CH_RenderingMonitor : MonoBehaviour
         Cursor.visible = false;
         Debug.Log("CH_RenderingMonitor: Am ieșit din modul de monitorizare.");
         CH_Manager.Instance.SetGeneralCanvasActive(true);
+        CH_RoomManager.Instance.setNameInputFieldReadOnly(true);
     }
 
     private IEnumerator TransitionCamera(Transform cameraTransform, Transform targetTransform, bool enterMonitor)
