@@ -204,8 +204,8 @@ Material:
     - _LinkDetailsWithBase: 1
     - _MaterialID: 1
     - _Metallic: 0
-    - _MetallicRemapMax: 0.47348493
-    - _MetallicRemapMin: 0.25378788
+    - _MetallicRemapMax: 0.40237382
+    - _MetallicRemapMin: 0.18267676
     - _NormalMapSpace: 0
     - _NormalScale: 1.01
     - _ObjectSpaceUVMapping: 0
@@ -261,8 +261,8 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
+    - _Color: {r: 0.5566037, g: 0.5566037, b: 0.5566037, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

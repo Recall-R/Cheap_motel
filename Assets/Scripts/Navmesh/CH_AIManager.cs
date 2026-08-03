@@ -22,16 +22,28 @@ public class CH_AIManager : MonoBehaviour
         }
     }
 
+    public void InvokeAICharacter()
+    {
+        if (CH_SpawnPoint == null)
+        {
+            Debug.LogWarning("Spawn point is not assigned in inspector.");
+            return;
+        }
+
+        _aiCharacter.InvokeCharacter(CH_SpawnPoint.transform.position);
+    }
+
+
     private void Update()
     {
         if (CH_SpawnPoint == null)
             return;
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            _aiCharacter.InvokeCharacter(CH_SpawnPoint.transform.position);
-            return;
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     _aiCharacter.InvokeCharacter(CH_SpawnPoint.transform.position);
+        //     return;
+        // }
 
         CH_AICharacterQueueManager queueManager = CH_AICharacterQueueManager.Instance;
         if (queueManager == null)
