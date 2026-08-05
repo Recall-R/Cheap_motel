@@ -27,6 +27,7 @@ public class CH_HorrorManager : MonoBehaviour
         foreach (GameObject lightSource in allLightSources)
         {
             lightSource.GetComponent<Light>().enabled = false;
+            CH_SoundManager.instance.PlaySound("PowerOutage");
         }
     }
 
@@ -37,6 +38,11 @@ public class CH_HorrorManager : MonoBehaviour
         {
             lightSource.GetComponent<Light>().enabled = true;
         }
+    }
+
+    public void TurnOffLightsInRoom(int roomIndex)
+    {
+        CH_RoomManager.Instance.SetRoomLights(roomIndex, false);
     }
     
 }

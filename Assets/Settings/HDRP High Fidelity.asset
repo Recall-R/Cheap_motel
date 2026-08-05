@@ -121,7 +121,7 @@ MonoBehaviour:
     hdShadowInitParams:
       maxShadowRequests: 256
       directionalShadowsDepthBits: 16
-      punctualShadowFilteringQuality: 2
+      punctualShadowFilteringQuality: 1
       directionalShadowFilteringQuality: 2
       areaShadowFilteringQuality: 0
       punctualLightShadowAtlas:
@@ -150,7 +150,7 @@ MonoBehaviour:
       maxDirectionalShadowMapResolution: 4096
       maxPunctualShadowMapResolution: 4096
       maxAreaShadowMapResolution: 4096
-      supportScreenSpaceShadows: 0
+      supportScreenSpaceShadows: 1
       maxScreenSpaceShadowSlots: 4
       screenSpaceShadowBufferFormat: 48
     decalSettings:

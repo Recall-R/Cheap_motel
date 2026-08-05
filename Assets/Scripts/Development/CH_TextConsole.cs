@@ -158,12 +158,18 @@ public class CH_TextConsole : MonoBehaviour
 
     private void ExecuteCommand(string rawCommand)
     {
-        string command = rawCommand.Trim().ToLowerInvariant();
-
-        if (string.IsNullOrEmpty(command))
+        if (string.IsNullOrWhiteSpace(rawCommand))
             return;
 
-        commandHistory.Add(command);
+        string[] parts = rawCommand.Trim()
+            .Split(new[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        if (parts.Length == 0)
+            return;
+
+        string command = parts[0].ToLowerInvariant();
+
+        commandHistory.Add(rawCommand.Trim());
         historyIndex = commandHistory.Count;
 
         switch (command)
@@ -173,6 +179,8 @@ public class CH_TextConsole : MonoBehaviour
                 AppendLine("- help");
                 AppendLine("- clear");
                 AppendLine("- turnoffalllights");
+                AppendLine("- spawnclient");
+                AppendLine("- turnonalllights");
                 break;
 
             case "clear":
@@ -202,6 +210,7 @@ public class CH_TextConsole : MonoBehaviour
                     AppendLine("CH_HorrorManager is not available.");
                 }
                 break;
+
             case "spawnclient":
                 CH_AIManager aiManager = CH_AIManager.Instance;
                 if (aiManager != null)
@@ -214,6 +223,26 @@ public class CH_TextConsole : MonoBehaviour
                     AppendLine("CH_AIManager is not available.");
                 }
                 break;
+
+            case "disableroomlights":
+                if (parts.Length < 2 || !int.TryParse(parts[1], out int roomIndex))
+                {
+                    AppendLine("Usage: disableroomlights <roomIndex>");
+                    break;
+                }
+
+                CH_RoomManager roomManager = CH_RoomManager.Instance;
+                if (roomManager != null)
+                {
+                    roomManager.SetRoomLights(roomIndex, false);
+                    AppendLine("DisableRoomLights executed.");
+                }
+                else
+                {
+                    AppendLine("CH_RoomManager is not available.");
+                }
+                break;
+
             default:
                 AppendLine($"Unknown command: {rawCommand}");
                 break;

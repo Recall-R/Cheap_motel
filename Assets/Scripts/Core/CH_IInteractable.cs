@@ -10,6 +10,7 @@ public class CH_IInteractable : MonoBehaviour
         CharacterDialog,
         LightSwitch,
         DoorSystem,
+        RoomLightPanel,
     }
 
     [SerializeField] private Interaction interactionType = Interaction.None;
@@ -72,6 +73,12 @@ public class CH_IInteractable : MonoBehaviour
             {
                 door.doorSystem();
             }
+        }
+        else if (InteractionType == Interaction.RoomLightPanel)
+        {
+            CH_contorIndex controlIndex = GetComponent<CH_contorIndex>() ?? GetComponentInParent<CH_contorIndex>();
+            controlIndex.setLocalRoomPanelLightOn(!controlIndex.IsLocalRoomPanelLightOn);
+            CH_RoomManager.Instance.SetRoomLights(controlIndex.Index, controlIndex.IsLocalRoomPanelLightOn);
         }
         else if (interactionType == Interaction.LightSwitch)
         {

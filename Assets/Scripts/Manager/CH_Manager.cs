@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class CH_Manager : MonoBehaviour {
 
     public static CH_Manager Instance { get; private set; }

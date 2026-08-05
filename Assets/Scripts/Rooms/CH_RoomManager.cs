@@ -100,4 +100,15 @@ public class CH_RoomManager : MonoBehaviour {
         }
         
     }
+    
+    public void SetRoomLights(int roomIndex, bool lightsOn)
+    {
+        if (roomIndex < 0 || roomIndex >= roomUnits.Length)
+        {
+            Debug.LogWarning($"Invalid room index: {roomIndex}");
+            return;
+        }
+
+        roomUnits[roomIndex].setLightsOn(lightsOn);
+    }
 }
