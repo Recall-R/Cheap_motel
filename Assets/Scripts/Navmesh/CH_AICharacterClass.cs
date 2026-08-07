@@ -36,6 +36,7 @@ namespace CH_AICharacter
         [SerializeField]
         private float arrivalDistance = 0.5f;
 
+
         public void InvokeCharacter(Vector3 spawnPosition)
         {
             GameObject prefab = killerPrefab != null ? killerPrefab : guestPrefab;
@@ -79,7 +80,8 @@ namespace CH_AICharacter
                 driver = characterInstance.AddComponent<CH_AICharacterMovementDriver>();
             }
 
-            driver.Initialize(agent, customDestination, secondaryTargets, selectedSecondaryIndex, arrivalDistance);
+            Animator animator = characterInstance.GetComponent<Animator>() ?? characterInstance.GetComponentInChildren<Animator>();
+            driver.Initialize(agent, customDestination, secondaryTargets, selectedSecondaryIndex, arrivalDistance, animator);
         }
 
         private void AttachSuspicionState(GameObject characterInstance, string npcName)

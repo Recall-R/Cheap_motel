@@ -26,20 +26,47 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
     private int currentTargetKey;
     private CH_AICharacterQueueManager queueManager;
 
+    //Animations part
+    private Animator animator;
+    [SerializeField]
+    private string isWalkingParameter = "isWalking";
+    [SerializeField]
+    private float walkThreshold = 0.1f;
+    [SerializeField]
+    private float minAnimationSpeed = 0.8f;
+    [SerializeField]
+    private float maxAnimationSpeed = 1.4f;
+
     [HideInInspector]
     public int QueueIndex = -1;
 
-    public void Initialize(NavMeshAgent agent, Transform customDestination, Transform[] secondaryTargets, int selectedSecondaryIndex, float arrivalDistance)
+    public void Initialize(NavMeshAgent agent, Transform customDestination, Transform[] secondaryTargets, int selectedSecondaryIndex, float arrivalDistance, Animator animator = null)
     {
         this.agent = agent;
         this.customDestination = customDestination;
         this.secondaryTargets = secondaryTargets;
         this.selectedSecondaryIndex = Mathf.Clamp(selectedSecondaryIndex, 0, secondaryTargets != null ? secondaryTargets.Length - 1 : 0);
         this.arrivalDistance = Mathf.Max(0.1f, arrivalDistance);
+        this.animator = animator;
+
+        if (this.animator == null && this.agent != null)
+        {
+            this.animator = this.agent.GetComponent<Animator>() ?? this.agent.GetComponentInChildren<Animator>();
+        }
 
         queueManager = CH_AICharacterQueueManager.Instance;
         if (queueManager == null)
             queueManager = FindObjectOfType<CH_AICharacterQueueManager>();
+
+        if (this.animator != null)
+        {
+            Debug.Log("Animator field: " + this.animator.name);
+            Debug.Log("Animator.controller: " + (this.animator.runtimeAnimatorController != null ? this.animator.runtimeAnimatorController.name : "None"));
+        }
+        else
+        {
+            Debug.LogWarning($"{name}: No Animator found on the character root or children.");
+        }
 
         BuildMovementTargets();
         BeginMovement();
@@ -72,7 +99,47 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
             MoveToRoom(0);
         }
 
-        if (agent == null || agent.pathPending || agent.isStopped)
+        if (agent == null)
+            return;
+
+        // Recover Animator if it was missing at Initialize time or if it was added later.
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>() ?? GetComponentInChildren<Animator>();
+            if (animator != null)
+            {
+                Debug.Log($"{name}: Recovered Animator at runtime: {animator.name}");
+            }
+        }
+
+        // Update animator state and playback speed based on agent velocity.
+        float currentSpeed = agent.velocity.magnitude;
+        bool isWalking = currentSpeed > walkThreshold;
+        float normalizedSpeed = 0f;
+
+        if (agent.speed > 0.0001f)
+        {
+            normalizedSpeed = Mathf.Clamp01(currentSpeed / agent.speed);
+        }
+
+        float targetAnimationSpeed = isWalking ? Mathf.Lerp(minAnimationSpeed, maxAnimationSpeed, normalizedSpeed) : 1f;
+        Debug.Log($"{name}: Current Speed={currentSpeed:F3}, isWalking={isWalking}, animationSpeed={targetAnimationSpeed:F3}");
+
+        if (animator != null)
+        {
+            animator.speed = targetAnimationSpeed;
+
+            if (HasAnimatorParameter(isWalkingParameter))
+            {
+                animator.SetBool(isWalkingParameter, isWalking);
+            }
+            else
+            {
+                Debug.LogWarning($"{name}: Animator does not contain parameter '{isWalkingParameter}'.");
+            }
+        }
+
+        if (agent.pathPending || agent.isStopped)
             return;
 
         if (agent.remainingDistance <= arrivalDistance)
@@ -260,7 +327,22 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
             driver = characterInstance.AddComponent<CH_AICharacterMovementDriver>();
         }
 
-        driver.Initialize(agent, customDestination, secondaryTargets, selectedSecondaryIndex, arrivalDistance);
+        Animator animator = characterInstance.GetComponent<Animator>() ?? characterInstance.GetComponentInChildren<Animator>();
+        driver.Initialize(agent, customDestination, secondaryTargets, selectedSecondaryIndex, arrivalDistance, animator);
+    }
+
+    private bool HasAnimatorParameter(string parameterName)
+    {
+        if (animator == null || string.IsNullOrEmpty(parameterName))
+            return false;
+
+        foreach (AnimatorControllerParameter parameter in animator.parameters)
+        {
+            if (parameter.name == parameterName)
+                return true;
+        }
+
+        return false;
     }
 }
 }
