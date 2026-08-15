@@ -46,6 +46,17 @@ public class CH_RoomManager : MonoBehaviour {
         selectedRoomIndex = roomIndex;
     }
 
+    public bool isAtleastOneRoomFree()
+    {
+        for (int i = 0; i < roomUnits.Length; i++)
+        {
+            if (!roomUnits[i].IsOccupied)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void setNameInputFieldReadOnly(bool readOnly)
     {
