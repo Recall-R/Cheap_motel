@@ -11,6 +11,9 @@ public class CH_IInteractable : MonoBehaviour
         LightSwitch,
         DoorSystem,
         RoomLightPanel,
+
+        ElectricalPanelDoor,
+        ElectricalButton
     }
 
     [SerializeField] private Interaction interactionType = Interaction.None;
@@ -79,6 +82,29 @@ public class CH_IInteractable : MonoBehaviour
             CH_contorIndex controlIndex = GetComponent<CH_contorIndex>() ?? GetComponentInParent<CH_contorIndex>();
             controlIndex.setLocalRoomPanelLightOn(!controlIndex.IsLocalRoomPanelLightOn);
             CH_RoomManager.Instance.SetRoomLights(controlIndex.Index, controlIndex.IsLocalRoomPanelLightOn);
+        }
+        else if (interactionType == Interaction.ElectricalPanelDoor)
+        {
+            Animator animator = GetComponent<Animator>();
+
+            if(animator.GetBool("isOpen"))
+            {
+                animator.SetBool("isOpen", false);
+            } else
+            {
+                animator.SetBool("isOpen", true);
+            }
+        }
+        else if (interactionType == Interaction.ElectricalButton)
+        {
+            Animator animator = GetComponent<Animator>();
+            if(animator.GetBool("isOn"))
+            {
+                animator.SetBool("isOn", false);
+            } else
+            {
+                animator.SetBool("isOn", true);
+            }
         }
         else if (interactionType == Interaction.LightSwitch)
         {

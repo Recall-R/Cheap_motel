@@ -10,6 +10,7 @@ TagManager:
   - NPC
   - DecisionDoor
   - Door
+  - ElectricalPanel_Door
   layers:
   - Default
   - TransparentFX
