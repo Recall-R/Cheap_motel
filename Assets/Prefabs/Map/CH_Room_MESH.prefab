@@ -3492,6 +3492,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CH_IInteractable
   interactionType: 5
+  interactionKeys: 43010000
+  interactionBindings:
+  - interactionType: 9
+    keys: 44010000
+    enabled: 1
+  - interactionType: 5
+    keys: 43010000
+    enabled: 1
 --- !u!4 &741518641208435233 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 431f28d3dee200546be69c1f731acc26, type: 3}
@@ -3562,6 +3570,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CH_IInteractable
   interactionType: 5
+  interactionKeys: 43010000
+  interactionBindings:
+  - interactionType: 9
+    keys: 44010000
+    enabled: 1
+  - interactionType: 5
+    keys: 43010000
+    enabled: 1
 --- !u!114 &429163795312374375
 MonoBehaviour:
   m_ObjectHideFlags: 0

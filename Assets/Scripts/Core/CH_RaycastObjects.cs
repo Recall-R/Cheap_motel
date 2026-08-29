@@ -63,14 +63,14 @@ public class CH_RaycastObjects : MonoBehaviour
             interactableDot.SetActive(true);
         }
 
-        bool pressedInteractionKey = interactable != null ? interactable.IsInteractionPressed() : false;
+        bool pressedInteractionKey = interactable != null && interactable.TryTriggerPressedInteraction();
 
         if (!pressedInteractionKey && hasSuspicionState)
         {
             CH_IInteractable interactableForDialog = hitObject.GetComponent<CH_IInteractable>() ?? hitObject.GetComponentInParent<CH_IInteractable>();
             if (interactableForDialog != null)
             {
-                pressedInteractionKey = interactableForDialog.IsInteractionPressed();
+                pressedInteractionKey = interactableForDialog.TryTriggerPressedInteraction();
             }
         }
 
@@ -79,7 +79,6 @@ public class CH_RaycastObjects : MonoBehaviour
 
         if (interactable != null)
         {
-            interactable.Interact();
             OnObjectClicked?.Invoke(hitObject);
             return;
         }

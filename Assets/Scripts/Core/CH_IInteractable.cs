@@ -18,29 +18,95 @@ public class CH_IInteractable : MonoBehaviour
         KnockDoor,
     }
 
-    [SerializeField] private Interaction interactionType = Interaction.None;
+    [System.Serializable]
+    public class InteractionBinding
+    {
+        public Interaction interactionType = Interaction.None;
+        public List<KeyCode> keys = new List<KeyCode> { KeyCode.E };
+        public bool enabled = true;
 
+        public bool IsPressed()
+        {
+            if (!enabled || keys == null || keys.Count == 0)
+                return false;
+
+            foreach (KeyCode key in keys)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    [SerializeField] private Interaction interactionType = Interaction.None;
     [SerializeField] private List<KeyCode> interactionKeys = new List<KeyCode> { KeyCode.Mouse0 };
+    [SerializeField] private List<InteractionBinding> interactionBindings = new List<InteractionBinding>();
 
     public Interaction InteractionType => interactionType;
     public List<KeyCode> InteractionKeys => interactionKeys;
+    public List<InteractionBinding> InteractionBindings => interactionBindings;
 
-    public bool IsInteractionPressed()
+    public bool TryGetPressedInteraction(out Interaction pressedInteraction)
     {
+        pressedInteraction = Interaction.None;
+
+        if (interactionBindings != null)
+        {
+            foreach (InteractionBinding binding in interactionBindings)
+            {
+                if (binding == null || !binding.enabled)
+                    continue;
+
+                if (binding.IsPressed())
+                {
+                    pressedInteraction = binding.interactionType;
+                    return true;
+                }
+            }
+        }
+
+        if (interactionType == Interaction.None)
+            return false;
+
         if (interactionKeys == null || interactionKeys.Count == 0)
         {
-            return Input.GetMouseButtonDown(0);
+            if (Input.GetMouseButtonDown(0))
+            {
+                pressedInteraction = interactionType;
+                return true;
+            }
+
+            return false;
         }
 
         foreach (KeyCode key in interactionKeys)
         {
             if (Input.GetKeyDown(key))
             {
+                pressedInteraction = interactionType;
                 return true;
             }
         }
 
         return false;
+    }
+
+    public bool TryTriggerPressedInteraction()
+    {
+        if (!TryGetPressedInteraction(out Interaction pressedInteraction))
+            return false;
+
+        TriggerInteraction(pressedInteraction);
+        return true;
+    }
+
+    public bool IsInteractionPressed()
+    {
+        return TryGetPressedInteraction(out _);
     }
 
     public void Interact()
