@@ -63,7 +63,18 @@ public class CH_RaycastObjects : MonoBehaviour
             interactableDot.SetActive(true);
         }
 
-        if (!Input.GetMouseButtonDown(0))
+        bool pressedInteractionKey = interactable != null ? interactable.IsInteractionPressed() : false;
+
+        if (!pressedInteractionKey && hasSuspicionState)
+        {
+            CH_IInteractable interactableForDialog = hitObject.GetComponent<CH_IInteractable>() ?? hitObject.GetComponentInParent<CH_IInteractable>();
+            if (interactableForDialog != null)
+            {
+                pressedInteractionKey = interactableForDialog.IsInteractionPressed();
+            }
+        }
+
+        if (!pressedInteractionKey)
             return;
 
         if (interactable != null)

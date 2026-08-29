@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CH_IInteractable : MonoBehaviour
@@ -13,12 +14,34 @@ public class CH_IInteractable : MonoBehaviour
         RoomLightPanel,
 
         ElectricalPanelDoor,
-        ElectricalButton
+        ElectricalButton,
+        KnockDoor,
     }
 
     [SerializeField] private Interaction interactionType = Interaction.None;
 
+    [SerializeField] private List<KeyCode> interactionKeys = new List<KeyCode> { KeyCode.Mouse0 };
+
     public Interaction InteractionType => interactionType;
+    public List<KeyCode> InteractionKeys => interactionKeys;
+
+    public bool IsInteractionPressed()
+    {
+        if (interactionKeys == null || interactionKeys.Count == 0)
+        {
+            return Input.GetMouseButtonDown(0);
+        }
+
+        foreach (KeyCode key in interactionKeys)
+        {
+            if (Input.GetKeyDown(key))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public void Interact()
     {
@@ -119,6 +142,14 @@ public class CH_IInteractable : MonoBehaviour
                 {
                     lights.setIsOn(true);
                 }
+            }
+        }
+        else if (interactionType == Interaction.KnockDoor)
+        {
+            CH_DecisionDoor door = GetComponent<CH_DecisionDoor>() ?? GetComponentInParent<CH_DecisionDoor>();
+            if(door != null)
+            {
+                door.knockDoor();
             }
         }
     }
