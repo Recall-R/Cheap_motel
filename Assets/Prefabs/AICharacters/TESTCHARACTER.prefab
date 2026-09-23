@@ -3374,7 +3374,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 367683682857909022}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: eb280940c811fab4a9e3ddf09381c343, type: 2}
   m_CullingMode: 0
@@ -8518,6 +8518,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CH_IInteractable
   interactionType: 3
+  interactionKeys: 43010000
+  interactionBindings: []
 --- !u!1 &9137615514678897461
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,7 +81,7 @@ public class CH_TextConsole : MonoBehaviour
             return;
 
         windowRect = GUI.Window(0, windowRect, DrawConsoleWindow, "Text Console");
-        GUILayout.Label($"Cursor: {Cursor.lockState} | Visible: {Cursor.visible} | KeyboardControl: {GUIUtility.keyboardControl} | CONSOLE: {isOpen} | FOCUS: {focusInput}" );
+        GUILayout.Label($"Cursor: {Cursor.lockState} | Visible: {Cursor.visible} | KeyboardControl: {GUIUtility.keyboardControl} | CONSOLE: {isOpen} | FOCUS: {focusInput} | HOUR: {CH_NightDirectr.Instance.CurrentHour} | MINUTE: {CH_NightDirectr.Instance.CurrentMinute}" );
     }
 
     private void DrawConsoleWindow(int windowId)
@@ -181,6 +181,8 @@ public class CH_TextConsole : MonoBehaviour
                 AppendLine("- turnoffalllights");
                 AppendLine("- spawnclient");
                 AppendLine("- turnonalllights");
+                AppendLine("- disableroomlights <roomIndex>");
+                AppendLine("- spawnbus");
                 break;
 
             case "clear":
@@ -242,7 +244,20 @@ public class CH_TextConsole : MonoBehaviour
                     AppendLine("CH_RoomManager is not available.");
                 }
                 break;
-
+            case "spawnbus":
+                CH_BusManager busManager = CH_BusManager.Instance;
+                if (busManager != null)
+                {
+                    Vector3 spawnPosition = new Vector3(0, 0, 0);
+                    Quaternion spawnRotation = Quaternion.Euler(-90f, 0f, 90f); // Setează rotația dorită pentru spawn
+                    busManager.SpawnBus(spawnPosition, spawnRotation);
+                    AppendLine("SpawnBus executed.");
+                }
+                else
+                {
+                    AppendLine("CH_BusManager is not available.");
+                }
+                break;
             default:
                 AppendLine($"Unknown command: {rawCommand}");
                 break;
@@ -254,3 +269,4 @@ public class CH_TextConsole : MonoBehaviour
         outputText += message + "\n";
     }
 }
+

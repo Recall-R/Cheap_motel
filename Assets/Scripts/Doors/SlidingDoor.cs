@@ -8,7 +8,7 @@ public class SlidingDoor : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {
             slidingDoorAnimator_R.SetBool("isOpen", true);
             slidingDoorAnimator_L.SetBool("isOpen", true);
@@ -16,7 +16,7 @@ public class SlidingDoor : MonoBehaviour
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {
             slidingDoorAnimator_R.SetBool("isOpen", false);
             slidingDoorAnimator_L.SetBool("isOpen", false);

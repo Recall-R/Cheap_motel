@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using TMPro;
+using System.Collections;
 public class CH_NightDirectr: MonoBehaviour
 {
     public static CH_NightDirectr Instance { get; private set; }
@@ -17,6 +18,7 @@ public class CH_NightDirectr: MonoBehaviour
     private float currentTotalMinutes;
     private int totalShiftMinutes;
     private bool isRunning;
+    private bool busSpawnedForCurrentTime;
  
     public int CurrentHour { get; private set; }
     public int CurrentMinute { get; private set; }
@@ -31,24 +33,39 @@ public class CH_NightDirectr: MonoBehaviour
     public void PauseShift() => isRunning = false;
     public void ResumeShift() => isRunning = true;
  
+
+    [Header("Spawning Bus")]
+    [SerializeField] private Quaternion spawnRotation = Quaternion.Euler(-90f, 0f, 90f); // Setează rotația dorită pentru spawn
+    [SerializeField] private Vector3 spawnPosition = Vector3.zero; // Setează poziția dorită pentru spawn
+
     private void Awake()
     {
         // calculam durata totala a turei in minute, gestionand trecerea peste miezul noptii
         int startTotal = startHour * 60;
         int endTotal = endHour * 60;
- 
+        
+        CurrentHour = startHour;
+
         if (endTotal <= startTotal)
             endTotal += 24 * 60; // ex: 22:00 -> 05:00 devine 22:00 -> 29:00 (adica 7 ore)
  
         totalShiftMinutes = endTotal - startTotal;
         ResumeShift(); // pornim tura imediat la startul scenei
+
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning("CH_NightDirectr: Există deja o instanță activă. Se distruge duplicatul.");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
  
     //TIME MANAGEMENT
     /// <summary>Porneste tura de la inceput (currentTotalMinutes = 0).</summary>
     public void StartShift()
     {
-        currentTotalMinutes = 0f;
+        currentTotalMinutes = 1f;
         isRunning = true;
         UpdateClockValues();
     }
@@ -69,7 +86,10 @@ public class CH_NightDirectr: MonoBehaviour
             OnShiftEnded?.Invoke();
             return;
         }
- 
+
+        if (CurrentHour != 22) {
+            trySpawnBus();
+        }
         // declansam evenimentul doar cand se schimba minutul intreg afisat, nu la fiecare frame
         if (Mathf.FloorToInt(previousMinutes) != Mathf.FloorToInt(currentTotalMinutes))
         {
@@ -100,7 +120,7 @@ public class CH_NightDirectr: MonoBehaviour
 
 
 
-    void isSpawnableAllowed()
+    public void isSpawnableAllowed()
     {
         if(!CH_RoomManager.Instance.isAtleastOneRoomFree())
         {
@@ -113,8 +133,38 @@ public class CH_NightDirectr: MonoBehaviour
             return;
         }
 
+        if (CurrentHour >= 23 && CurrentHour < 5)
+        {
+            Debug.Log("Current hour is less than or equal to 23. Cannot spawn AI character.");
+            return;
+        }
+
         CH_AIManager aiManager = CH_AIManager.Instance;
         aiManager.InvokeAICharacter();
     }
 
+    public void trySpawnBus()
+    {
+        if (busSpawnedForCurrentTime && CurrentMinute != 0 && CurrentMinute != 30)
+        {
+            busSpawnedForCurrentTime = false;
+        }
+
+        if (CH_BusManager.Instance == null)
+        {
+            Debug.LogWarning("CH_NightDirector: CH_BusManager nu este setat în scenă.");
+            return;
+        }
+
+        if (!busSpawnedForCurrentTime && (CurrentHour >= 23 || CurrentHour < 5))
+        {
+            if (CurrentMinute == 0 || CurrentMinute == 30)
+        {
+                Debug.Log("Spawning bus at hour: " + CurrentHour + " 'oclock and minute: " + CurrentMinute);
+
+                CH_BusManager.Instance.SpawnBus(spawnPosition, spawnRotation);
+                busSpawnedForCurrentTime = true;
+            }
+        }
+    }
 }
