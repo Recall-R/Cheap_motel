@@ -46,6 +46,15 @@ public class CH_RoomManager : MonoBehaviour {
         selectedRoomIndex = roomIndex;
     }
 
+    public int GetRoomCount()
+    {
+        return roomUnits.Length;
+    }
+    public GameObject getNpcCharacterInRoom(int indexRoom)
+    {
+        return roomUnits[indexRoom].getNpcCharacter();
+    }
+
     public bool isAtleastOneRoomFree()
     {
         for (int i = 0; i < roomUnits.Length; i++)
@@ -56,6 +65,13 @@ public class CH_RoomManager : MonoBehaviour {
             }
         }
         return false;
+    }
+
+    void ClearRoom(int indexRoom)
+    {
+        roomUnits[indexRoom].setOccupied(false);
+        roomUnits[indexRoom].setKillerOnRoom(false);
+        roomUnits[indexRoom].setNpcCharacter(null);
     }
 
     public void setNameInputFieldReadOnly(bool readOnly)
@@ -105,8 +121,8 @@ public class CH_RoomManager : MonoBehaviour {
 
         if (CH_AICharacterQueueManager.Instance != null)
         {
+            roomUnits[selectedRoomIndex].setNpcCharacter(CH_AICharacterQueueManager.Instance.GetFirstInQueue());
             CH_AICharacterQueueManager.Instance.MoveFirstInQueueToRoom(selectedRoomIndex);
-            roomUnits[selectedRoomIndex].setNpcCharacter(CH_AICharacterQueueManager.Instance.gameObject);
             selectedRoomIndex = -1;
         }
         

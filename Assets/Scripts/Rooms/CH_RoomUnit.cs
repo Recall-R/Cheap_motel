@@ -40,6 +40,10 @@ public class CH_RoomUnit : MonoBehaviour
     {
         npcCharacter = character;
     }
+    public GameObject getNpcCharacter()
+    {
+        return npcCharacter;
+    }
     //this function is used for turn off/on the lights in the room like a panel, blocking switching the lights in the room, and also for the horror manager to turn off all lights in the room
     public void setLightsOn(bool lightsOn)
     {

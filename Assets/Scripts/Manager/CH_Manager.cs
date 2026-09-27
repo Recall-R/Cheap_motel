@@ -27,7 +27,15 @@ public class CH_Manager : MonoBehaviour {
         fpsController.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = isActive;
         return true;
     }
+    
+    public GameObject GetFPSController() {
+        if (fpsController == null) {
+            Debug.LogWarning("CH_Manager: fpsController nu este setat în inspector.");
+            return null;
+        }
 
+        return fpsController;
+    }
     public bool isFPSControllerActive() {
         if (fpsController == null) {
             Debug.LogWarning("CH_Manager: fpsController nu este setat în inspector.");

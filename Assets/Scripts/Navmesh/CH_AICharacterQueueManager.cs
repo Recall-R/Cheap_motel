@@ -86,6 +86,7 @@ public class CH_AICharacterQueueManager : MonoBehaviour
         if (suspicionState.SuspicionProfile.IsActuallyDangerous)
         {
             CH_RoomManager.Instance.setIsKillerOnRoom(targetRoomIndex, true);
+            CH_EventManager.Instance.isAKillerInScene();
         }
         
         CH_RoomManager.Instance.setRoomOccupied(targetRoomIndex, true);

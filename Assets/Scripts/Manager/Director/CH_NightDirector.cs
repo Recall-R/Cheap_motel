@@ -95,6 +95,12 @@ public class CH_NightDirectr: MonoBehaviour
         {
             UpdateClockValues();
         }
+
+
+        //Event Listener
+        if(CurrentHour >= 0 && CurrentHour < 5) {
+            CH_EventManager.Instance.StartEvent();
+        }
     }
  
     private void UpdateClockValues()
@@ -167,4 +173,5 @@ public class CH_NightDirectr: MonoBehaviour
             }
         }
     }
+
 }
