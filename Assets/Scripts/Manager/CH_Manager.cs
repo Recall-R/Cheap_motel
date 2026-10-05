@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 
 public class CH_Manager : MonoBehaviour {
 
@@ -8,6 +8,9 @@ public class CH_Manager : MonoBehaviour {
     [SerializeField] private GameObject fpsController;
 
     [SerializeField] private GameObject generalCanvas;
+
+    [SerializeField] private float killCamTurnSpeed = 620f; // grade / secundă
+    private float rotationSpeed = 5f; // Adjust this value to control the speed of rotation
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -64,4 +67,27 @@ public class CH_Manager : MonoBehaviour {
         Debug.LogWarning($"CH_Manager: {message}");
     }
 
+    public IEnumerator KillCamRoutine(GameObject killer, float maxTime = 1f, float angleThreshold = 3f)
+    {
+        SetCursorLockState(false);
+        SetFPSControllerActive(false);
+        SetGeneralCanvasActive(false);
+
+        Transform cam = Camera.main.transform;
+        float t = 0f;
+
+        while (t < maxTime) // maxTime = plasă de siguranță, să nu rămână blocat
+        {
+            Vector3 dir = (killer.transform.position + killer.transform.up * 1.1f) - cam.position;
+            if (dir.sqrMagnitude < 0.0001f) break;
+
+            Quaternion desired = Quaternion.LookRotation(dir);
+            cam.rotation = Quaternion.RotateTowards(cam.rotation, desired, killCamTurnSpeed * Time.deltaTime);
+
+            if (Quaternion.Angle(cam.rotation, desired) < angleThreshold) break;
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+    }
 }

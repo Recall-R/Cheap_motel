@@ -258,6 +258,30 @@ public class CH_TextConsole : MonoBehaviour
                     AppendLine("CH_BusManager is not available.");
                 }
                 break;
+
+            case "startwatcherevent":
+                CH_EventManager eventManager = CH_EventManager.Instance;
+                if (eventManager != null)
+                {
+                    if (parts.Length < 2)
+                    {
+                        AppendLine("Usage: startwatcherevent <NpcName>");
+                        break;
+                    }
+                    GameObject npcCharacter = GameObject.Find(parts[1]);
+                    if (npcCharacter == null)
+                    {
+                        AppendLine($"NPC character '{parts[1]}' not found in the scene.");
+                        break;
+                    }
+                    CH_EventManager.Instance.StartEvent();
+                    AppendLine("StartWatcherEvent executed.");
+                }
+                else
+                {
+                    AppendLine("CH_EventManager is not available.");
+                }
+                break;
             default:
                 AppendLine($"Unknown command: {rawCommand}");
                 break;
