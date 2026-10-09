@@ -216,6 +216,8 @@ public class CH_IInteractable : MonoBehaviour
             if(door != null)
             {
                 door.knockDoor();
+                //need to implement this
+                //CH_RoomManager.Instance.SetRoomKnockedOnDoor(door.RoomIndex, true);
             }
         }
     }

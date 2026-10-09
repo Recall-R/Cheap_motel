@@ -6,8 +6,15 @@ public class CH_HorrorManager : MonoBehaviour
 
     [Header("Light Sources")]
     [Tooltip("All light sources in the scene that can be turned on/off.")]
+
+    [SerializeField] private bool isAllLightsOn = true;    
     [SerializeField] private GameObject[] allLightSources;
 
+
+    public bool IsAllLightsOn
+    {
+        get { return isAllLightsOn; }
+    }
 
     public void Awake()
     {
@@ -22,12 +29,14 @@ public class CH_HorrorManager : MonoBehaviour
         }
     }
     
+    //ligthing horror system !! maybe should move to animation and here just to call the animation
     public void TurnOffAllLights()
     {
         foreach (GameObject lightSource in allLightSources)
         {
             lightSource.GetComponent<Light>().enabled = false;
             CH_SoundManager.instance.PlaySound("PowerOutage");
+            isAllLightsOn = false; // Update the flag to indicate that all lights are off
         }
     }
 
@@ -37,6 +46,8 @@ public class CH_HorrorManager : MonoBehaviour
         foreach (GameObject lightSource in allLightSources)
         {
             lightSource.GetComponent<Light>().enabled = true;
+            isAllLightsOn = true; // Update the flag to indicate that all lights are on
+            CH_EventManager.Instance.IsBusy = false;
         }
     }
 

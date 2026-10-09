@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using TMPro;
-using System.Collections;
+using System.Collections;   
 public class CH_NightDirectr: MonoBehaviour
 {
     public static CH_NightDirectr Instance { get; private set; }
@@ -97,10 +97,14 @@ public class CH_NightDirectr: MonoBehaviour
         }
 
 
-        //Event Listener
-        if(CurrentHour >= 0 && CurrentHour < 5) {
-            CH_EventManager.Instance.StartEvent();
-        }
+        //Event Listener 
+        // random Start event between 00:00 and 05:00
+        // if(CurrentHour >= 0 && CurrentHour < 5)
+        // {
+        //     StartCoroutine(RandomStartEventInNight());
+        // }
+
+        CH_EventManager.Instance.StartEvent();
     }
  
     private void UpdateClockValues()

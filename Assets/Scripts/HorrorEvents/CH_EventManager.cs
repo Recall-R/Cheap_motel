@@ -1,15 +1,64 @@
 
 using UnityEngine;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using CH_AICharacter;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using System.Collections;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class EventClass
+{
+    public string eventName;
+    public UnityEvent eventAction;
+
+    [Range(0f, 1f)]
+    public float weight = 1f;
+
+    public float cooldown = 30f;
+
+    private float lastTriggeredTime = -999f;
+
+    public ConditionAbstract[] condition;
+    public float duration = 2f;
+    public bool isForWatcherFollow = false;
+
+    public bool subEventActive = false;
+
+    public UnityEvent subEventAction;
+
+    public bool isAvailable()
+    {
+        bool coolDownOk = Time.time - lastTriggeredTime >= cooldown;
+        bool conditionOk = condition == null || condition.All(c => c.Evaluate());
+
+        return coolDownOk && conditionOk;
+    }
+
+    public void MarkTriggered()
+    {
+        lastTriggeredTime = Time.time;
+    }
+}
+
+
+
 public class CH_EventManager : MonoBehaviour
 {
     public static CH_EventManager Instance { get; private set; }
 
+    [Header("Event Settings")]
+    [SerializeField] private List<EventClass> events = new List<EventClass>();
+    [SerializeField] private bool isBusy = false;
+    public bool IsBusy
+    {
+        get { return isBusy; }
+        set { isBusy = value; }
+    }
+    [Header("Wacher killer Settings")]
     [SerializeField] private List<int> roomsThatHaveKiller = new List<int>();
     [SerializeField] private PlayableDirector deathTimeline;
     [SerializeField] private string killerAnimationTrackName;
@@ -22,7 +71,9 @@ public class CH_EventManager : MonoBehaviour
     [SerializeField] private GameObject deathScreenCanvas;
     private bool caught;
 
-
+    [Header("Additions")]
+    [SerializeField] private GameObject exitPointForNpcs;
+    
     [SerializeField] private bool isPlayerInInterior_WATCHER;
 
     //getter setter isPlayerInInterior_WATCHER
@@ -32,6 +83,11 @@ public class CH_EventManager : MonoBehaviour
         set { isPlayerInInterior_WATCHER = value; }
     }
     [SerializeField] private Animator cameraAnimator;
+
+
+    private Coroutine watcherFollowCoroutine;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -61,38 +117,118 @@ public class CH_EventManager : MonoBehaviour
         }
     }
 
-    void WatcherEvent()
-    {
-        if (caught) return;
 
-        Transform player = CH_Manager.Instance.GetFPSController().transform;
-
+    public GameObject GetGameObjectKillerFromRoom(string dangerType) {
+        
         for (int i = 0; i < roomsThatHaveKiller.Count; i++)
         {
             int roomIndex = roomsThatHaveKiller[i];
             GameObject npcCharacter = CH_RoomManager.Instance.getNpcCharacterInRoom(roomIndex);
-            if (npcCharacter == null) continue;
+            if (npcCharacter != null)
+            {
+                var suspicion = npcCharacter.GetComponent<CH_NPCSuspicionState>();
+                if (suspicion.SuspicionProfile.DangerType == dangerType)
+                {
+                    return npcCharacter;
+                }
+            }
+        }
+        return null;
+    }
 
-            var suspicion = npcCharacter.GetComponent<CH_NPCSuspicionState>();
-            if (suspicion.SuspicionProfile.DangerType != "watcher") continue;
+    public bool isWatcherInScene(string killer)
+    {
+        for (int i = 0; i < roomsThatHaveKiller.Count; i++)
+        {
+            int roomIndex = roomsThatHaveKiller[i];
+            GameObject npcCharacter = CH_RoomManager.Instance.getNpcCharacterInRoom(roomIndex);
+            if (npcCharacter != null)
+            {
+                var suspicion = npcCharacter.GetComponent<CH_NPCSuspicionState>();
+                if (suspicion.SuspicionProfile.DangerType == killer)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-            var agent = npcCharacter.GetComponent<NavMeshAgent>();
+    // public void WatcherEvent()
+    // {
+    //     if (caught) return;
 
+    //     Transform player = CH_Manager.Instance.GetFPSController().transform;
+    //     GameObject npcCharacter = GetGameObjectKillerFromRoom("watcher");
+    //     NavMeshAgent agent = npcCharacter?.GetComponent<NavMeshAgent>();
+
+    //     //avoid null reference exception
+    //     if (npcCharacter == null) return;   
         
+    //     if (Vector3.Distance(player.position, npcCharacter.transform.position) < catchDistance)
+    //     {
+    //         caught = true;
+    //         StartCoroutine(KillSequence(npcCharacter));
+
+    //     }
+    //     else
+    //     {
+    //         agent.isStopped = false;
+    //         agent.SetDestination(player.position);
+    //     }        
+    // }
+
+    public void WatcherEvent()
+    {
+        if (caught) return;
+
+        if (watcherFollowCoroutine != null)
+            StopCoroutine(watcherFollowCoroutine);
+
+        watcherFollowCoroutine = StartCoroutine(WatcherFollowRoutine());
+    }
+
+    private IEnumerator WatcherFollowRoutine()
+    {
+        GameObject npcCharacter = GetGameObjectKillerFromRoom("watcher");
+        NavMeshAgent agent = npcCharacter?.GetComponent<NavMeshAgent>();
+
+        if (npcCharacter == null || agent == null)
+        {
+            isBusy = false;
+            yield break;
+        }
+
+        agent.isStopped = false;
+
+        while (!caught && !IsPlayerInInterior_WATCHER)
+        {
+            Transform player = CH_Manager.Instance.GetFPSController().transform;
+
             if (Vector3.Distance(player.position, npcCharacter.transform.position) < catchDistance)
             {
                 caught = true;
-                StartCoroutine(KillSequence(npcCharacter));
+                yield return StartCoroutine(KillSequence(npcCharacter));
+                break;
+            }
 
-            }
-            else
-            {
-                agent.isStopped = false;
-                agent.SetDestination(player.position);
-            }
-            break;
+            agent.SetDestination(player.position);
+
+            yield return new WaitForSeconds(0.2f); // interval de update, nu la fiecare frame
         }
+
+        if (!caught && IsPlayerInInterior_WATCHER)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+            agent.SetDestination(exitPointForNpcs.transform.position);
+            isBusy = false;
+        }
+
+        isBusy = false;
     }
+
+
 
     private IEnumerator KillSequence(GameObject killer)
     {
@@ -111,17 +247,7 @@ public class CH_EventManager : MonoBehaviour
         // 2. abia apoi pornește Timeline-ul
         TriggerDeathTimeline(killer);
     }
-
-    public void StartEvent()
-    {
-        WatcherEvent();
-    }
-
-    public void ResetWatcher()
-    {
-        caught = false;
-    }
-
+    
     public void TurnOnDeathScreen()
     {
         if (deathScreenCanvas != null)
@@ -129,6 +255,70 @@ public class CH_EventManager : MonoBehaviour
             deathScreenCanvas.SetActive(true);
         }
     }
+
+    public void StartEvent()
+    {
+        if (isBusy) return; // dacă rulează deja ceva, nu verifica nimic altceva
+
+        var available = events
+            .Where(e => e.isAvailable()).ToList();
+        if (available.Count == 0) return;
+
+        // decidem random DACA declanșăm ceva acum (nu la fiecare frame automat)
+        if (Random.value < 0.002f) // ajustezi probabilitatea per frame
+        {
+            TriggerRandomEvent(available);
+        }
+    }
+
+    public void ResetWatcher()
+    {
+        caught = false;
+    }
+
+
+    private void TriggerRandomEvent(List<EventClass> available)
+    {
+        EventClass chosen = PickWeighted(available);
+        StartCoroutine(RunEvent(chosen));
+    }
+
+     private EventClass PickWeighted(List<EventClass> list)
+    {
+        float totalWeight = list.Sum(e => e.weight);
+        float roll = Random.value * totalWeight;
+        float cumulative = 0f;
+
+        foreach (var e in list)
+        {
+            cumulative += e.weight;
+            if (roll <= cumulative)
+                return e;
+        }
+        return list[list.Count - 1]; // fallback
+    }
+
+    private System.Collections.IEnumerator RunEvent(EventClass e)
+    {
+        isBusy = true;
+        e.MarkTriggered();
+
+        Debug.LogWarning($"Triggered: {e.eventName}");
+
+        e.eventAction?.Invoke();
+
+        if (e.subEventActive && e.subEventAction != null)
+        {
+            e.subEventAction.Invoke();
+        }
+        yield return new WaitForSeconds(e.duration);
+
+        //isBusy = false;
+    
+    }
+
+
+    //Killer DeathTImeline
 
     public void TriggerDeathTimeline(GameObject killer)
     {
