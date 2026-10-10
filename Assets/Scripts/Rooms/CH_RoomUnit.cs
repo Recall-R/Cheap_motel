@@ -20,12 +20,13 @@ public class CH_RoomUnit : MonoBehaviour
     [SerializeField] private GameObject lightSwitch;
     [SerializeField] private bool areLightsOn = true;
 
+    [SerializeField] private bool knockedOnDoor = false;
     public int RoomIndex => roomIndex;
     public Transform MovementPoint => movementPoint;
     public bool IsOccupied => isOccupied;
     public bool IsKillerOnRoom => isKillerOnRoom;
     public bool AreLightsOn => areLightsOn;
-
+    public bool KnockedOnDoor => knockedOnDoor;
     public void setOccupied(bool occupied)
     {
         isOccupied = occupied;
@@ -36,6 +37,10 @@ public class CH_RoomUnit : MonoBehaviour
         isKillerOnRoom = killeronroom;
     }
 
+    public void setKnockedOnDoor(bool knocked)
+    {
+        knockedOnDoor = knocked;
+    }
     public void setNpcCharacter(GameObject character)
     {
         npcCharacter = character;

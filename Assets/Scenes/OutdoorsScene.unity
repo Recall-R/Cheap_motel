@@ -11951,6 +11951,39 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.6740313, y: 5.690798, z: 14.553013}
   m_Center: {x: 1.4807582, y: 1.4390349, z: -3.0467968}
+--- !u!1 &751188556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 751188557}
+  m_Layer: 0
+  m_Name: ==========Positions===========
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &751188557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751188556}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.52853, y: 2.02009, z: -27.3667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1679478951}
+  - {fileID: 938481405}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &757541571
 GameObject:
   m_ObjectHideFlags: 0
@@ -13296,6 +13329,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &938481404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 938481405}
+  m_Layer: 0
+  m_Name: HorrorSpawnWatcherDark
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &938481405
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938481404}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -28.61, y: -1.32, z: 6.44}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 751188557}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &965199626
 GameObject:
   m_ObjectHideFlags: 0
@@ -17085,6 +17149,7 @@ MonoBehaviour:
   roomLights: []
   lightSwitch: {fileID: 0}
   areLightsOn: 1
+  knockedOnDoor: 0
 --- !u!115 &1336586208
 MonoScript:
   m_ObjectHideFlags: 0
@@ -20149,6 +20214,7 @@ MonoBehaviour:
   - {fileID: 1052322158}
   lightSwitch: {fileID: 1791972546}
   areLightsOn: 1
+  knockedOnDoor: 0
 --- !u!4 &1576512158
 Transform:
   m_ObjectHideFlags: 0
@@ -20205,6 +20271,7 @@ MonoBehaviour:
   - {fileID: 1459890601}
   lightSwitch: {fileID: 278213027}
   areLightsOn: 1
+  knockedOnDoor: 0
 --- !u!4 &1581269815
 Transform:
   m_ObjectHideFlags: 0
@@ -21172,6 +21239,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1482424047}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1679478950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1679478951}
+  m_Layer: 0
+  m_Name: ExitPositionNpc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1679478951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679478950}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -46.98, y: -2.11, z: -39.56}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 751188557}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1683361602
 PrefabInstance:
@@ -39671,6 +39769,7 @@ SceneRoots:
   - {fileID: 1581269815}
   - {fileID: 134244427}
   - {fileID: 1559434419}
+  - {fileID: 751188557}
   - {fileID: 1482424047}
   - {fileID: 757541572}
   - {fileID: 534892417}

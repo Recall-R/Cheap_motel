@@ -23,6 +23,11 @@ public class CH_RoomManager : MonoBehaviour {
         return roomUnits[indexRoom].IsOccupied;
     }
 
+
+    public bool isRoomKnockedOnDoor(int indexRoom)
+    {
+        return roomUnits[indexRoom].KnockedOnDoor;
+    }
     public bool isInRoomKiller(int indexRoom)
     {
         return roomUnits[indexRoom].IsKillerOnRoom;
@@ -39,6 +44,11 @@ public class CH_RoomManager : MonoBehaviour {
     public void setIsKillerOnRoom(int indexRoom, bool KillerOnRoom)
     {
         roomUnits[indexRoom].setKillerOnRoom(KillerOnRoom);
+    }
+
+    public void SetRoomKnockedOnDoor(int indexRoom, bool knocked)
+    {
+        roomUnits[indexRoom].setKnockedOnDoor(knocked);
     }
 
     public void uiSetAiToRoom(int roomIndex)
