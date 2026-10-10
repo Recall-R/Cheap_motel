@@ -11951,8 +11951,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.6740313, y: 5.690798, z: 14.553013}
   m_Center: {x: 1.4807582, y: 1.4390349, z: -3.0467968}
-<<<<<<< HEAD
-=======
 --- !u!1 &751188556
 GameObject:
   m_ObjectHideFlags: 0
@@ -11986,7 +11984,6 @@ Transform:
   - {fileID: 938481405}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> 85e3505 (EventBus struct. Stable Version)
 --- !u!1 &757541571
 GameObject:
   m_ObjectHideFlags: 0
