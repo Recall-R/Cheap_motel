@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Collections;
 
 
 namespace CH_AICharacter
@@ -20,11 +21,13 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
     private bool isFirstSpawn = false;
     private bool isMovingToRoom = false;
     private bool isInQueue = false;
+    private bool isLeavingQueue = false;
     private bool hasReachedCurrentDestination = false;
     private int currentRoomIndex = -1;
     private readonly Dictionary<int, Transform> movementTargets = new Dictionary<int, Transform>();
     private int currentTargetKey;
     private CH_AICharacterQueueManager queueManager;
+    private Coroutine queueExitCoroutine;
 
     //Animations part
     private Animator animator;
@@ -147,7 +150,12 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
             if (!hasReachedCurrentDestination)
             {
                 hasReachedCurrentDestination = true;
-                if (isMovingToRoom)
+                if (isLeavingQueue)
+                {
+                    isLeavingQueue = false;
+                    agent.isStopped = true;
+                }
+                else if (isMovingToRoom)
                 {
                     HandleRoomArrival();
                 }
@@ -236,6 +244,7 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
 
         currentRoomIndex = targetRoomIndex;
         isMovingToRoom = true;
+        isLeavingQueue = false;
         hasReachedCurrentDestination = false;
 
         agent.isStopped = false;
@@ -266,12 +275,23 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
         {
             agent.isStopped = true;
         }
+
+        if (queueManager != null)
+        {
+            queueExitCoroutine = StartCoroutine(queueManager.GoToExitAfterSeconds(gameObject));
+        }
     }
 
     private void ExitQueue()
     {
         if (!isInQueue)
             return;
+
+        if (queueExitCoroutine != null)
+        {
+            StopCoroutine(queueExitCoroutine);
+            queueExitCoroutine = null;
+        }
 
         isInQueue = false;
         QueueIndex = -1;
@@ -281,6 +301,28 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
         {
             agent.isStopped = false;
         }
+    }
+
+    public void LeaveQueueForExit(Transform exitPoint)
+    {
+        if (!isInQueue || agent == null || exitPoint == null)
+            return;
+
+        agent.isStopped = false;
+        if (!agent.SetDestination(exitPoint.position))
+        {
+            Debug.LogWarning($"{name}: Could not set a path to the NPC exit.");
+            agent.isStopped = true;
+            return;
+        }
+
+        isInQueue = false;
+        isMovingToRoom = false;
+        isLeavingQueue = true;
+        hasReachedCurrentDestination = false;
+        QueueIndex = -1;
+        queueExitCoroutine = null;
+        queueManager?.ExitQueue(gameObject);
     }
 
     private CH_RoomUnit FindRoomByIndex(int targetRoomIndex)

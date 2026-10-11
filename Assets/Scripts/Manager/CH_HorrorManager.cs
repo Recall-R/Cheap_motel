@@ -10,6 +10,8 @@ public class CH_HorrorManager : MonoBehaviour
     [SerializeField] private bool isAllLightsOn = true;    
     [SerializeField] private GameObject[] allLightSources;
 
+    [Header("Electrical Panel")]
+    [SerializeField] private Animator electricalPanelAnimator;
 
     public bool IsAllLightsOn
     {
@@ -37,6 +39,17 @@ public class CH_HorrorManager : MonoBehaviour
             lightSource.GetComponent<Light>().enabled = false;
             CH_SoundManager.instance.PlaySound("PowerOutage");
             isAllLightsOn = false; // Update the flag to indicate that all lights are off
+        }
+    }
+
+    public void TurnOffAllLightsAnim()
+    {
+        if (electricalPanelAnimator != null)
+        {
+            if(electricalPanelAnimator.GetBool("isOn"))
+            {
+                electricalPanelAnimator.SetBool("isOn", false);
+            }
         }
     }
 

@@ -10,6 +10,7 @@ public class CH_Manager : MonoBehaviour {
     [SerializeField] private GameObject generalCanvas;
 
     [SerializeField] private float killCamTurnSpeed = 620f; // grade / secundă
+    [SerializeField] private GameObject exitPointForNpcs;
     private float rotationSpeed = 5f; // Adjust this value to control the speed of rotation
 
     private void Awake() {
@@ -21,6 +22,18 @@ public class CH_Manager : MonoBehaviour {
 
         Instance = this;
     }
+
+    public GameObject GetExitPointForNpcs()
+    {
+        if (exitPointForNpcs == null)
+        {
+            Debug.LogWarning("CH_Manager: exitPointForNpcs nu este setat în inspector.");
+            return null;
+        }
+
+        return exitPointForNpcs;
+    }
+
     public bool SetFPSControllerActive(bool isActive) {
         if (fpsController == null) {
             Debug.LogWarning("CH_Manager: fpsController nu este setat în inspector.");

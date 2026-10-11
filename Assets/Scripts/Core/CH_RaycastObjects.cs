@@ -35,7 +35,9 @@ public class CH_RaycastObjects : MonoBehaviour
         if (mainCamera == null)
             return;
 
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        // Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Vector3 viewportCenter = new Vector3(0.5f, 0.5f, 0f);
+        Ray ray = mainCamera.ViewportPointToRay(viewportCenter);
         RaycastHit hit;
         bool hitSomething = Physics.Raycast(ray, out hit, maxDistance, raycastMask);
 

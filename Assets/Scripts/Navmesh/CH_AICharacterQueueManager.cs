@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Collections;
 using CH_AICharacter;
 
 public class CH_AICharacterQueueManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class CH_AICharacterQueueManager : MonoBehaviour
 
     [SerializeField]
     private float queueSpacing = 1.5f;
+
+    private const float secondsToWaitBeforeGoingToExit = 30f;
 
     [SerializeField]
     private readonly List<GameObject> queueObjects = new List<GameObject>();
@@ -152,5 +155,29 @@ public class CH_AICharacterQueueManager : MonoBehaviour
                 driver.QueueIndex = i;
             }
         }
+    }
+
+    public IEnumerator GoToExitAfterSeconds(GameObject character)
+    {
+        if (!IsInQueue(character))
+            yield break;
+
+        yield return new WaitForSeconds(secondsToWaitBeforeGoingToExit);
+
+        if (!IsInQueue(character))
+            yield break;
+
+        GameObject exitPoint = CH_Manager.Instance != null ? CH_Manager.Instance.GetExitPointForNpcs() : null;
+        if (exitPoint == null)
+            yield break;
+
+        CH_AICharacterMovementDriver movementDriver = character.GetComponent<CH_AICharacterMovementDriver>();
+        if (movementDriver == null)
+        {
+            Debug.LogWarning($"{character.name}: Cannot leave the queue because CH_AICharacterMovementDriver is missing.");
+            yield break;
+        }
+
+        movementDriver.LeaveQueueForExit(exitPoint.transform);
     }
 }

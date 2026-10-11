@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 099962523884ec84b96ee9482a310240, type: 3}
   m_Name: New CH_Condition_Is Killer In Scene
   m_EditorClassIdentifier: Assembly-CSharp::CH_Condition_IsKillerInScene
-  killerType: 
+  killerType: watcher

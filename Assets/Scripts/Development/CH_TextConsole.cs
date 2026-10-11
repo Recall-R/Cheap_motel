@@ -192,7 +192,7 @@ public class CH_TextConsole : MonoBehaviour
             case "turnoffalllights":
                 if (horrorManager != null)
                 {
-                    horrorManager.TurnOffAllLights();
+                    horrorManager.TurnOffAllLightsAnim();
                     AppendLine("TurnOffAllLights executed.");
                 }
                 else
