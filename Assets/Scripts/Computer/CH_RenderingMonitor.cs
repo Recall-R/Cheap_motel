@@ -26,6 +26,21 @@ public class CH_RenderingMonitor : MonoBehaviour
     [SerializeField] private bool originalSaved;
     private Coroutine transitionCoroutine;
 
+    [SerializeField] private bool isInMonitorMode = false;
+    [SerializeField] private GameObject monitorUI; // Referință la UI-ul monitorului
+
+    public bool IsMonitorUIActive
+    {
+        get => monitorUI != null && monitorUI.activeSelf;
+        set
+        {
+            if (monitorUI != null)
+            {
+                monitorUI.SetActive(value);
+            }
+        }
+    }
+    public bool IsInMonitorMode { get => isInMonitorMode; set => isInMonitorMode = value; }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -65,6 +80,7 @@ public class CH_RenderingMonitor : MonoBehaviour
 
         transitionCoroutine = StartCoroutine(TransitionCamera(mainCamera.transform, renderingCamera.transform, true));
         CH_Manager.Instance.SetGeneralCanvasActive(false);
+        IsInMonitorMode = true;
     }
 
     public void OnExitMonitor()
@@ -86,6 +102,7 @@ public class CH_RenderingMonitor : MonoBehaviour
         Debug.Log("CH_RenderingMonitor: Am ieșit din modul de monitorizare.");
         CH_Manager.Instance.SetGeneralCanvasActive(true);
         CH_RoomManager.Instance.setNameInputFieldReadOnly(true);
+        isInMonitorMode = false;
     }
 
     private IEnumerator TransitionCamera(Transform cameraTransform, Transform targetTransform, bool enterMonitor)

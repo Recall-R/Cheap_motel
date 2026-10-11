@@ -13,10 +13,7 @@ public class CH_SubEvent_Watcher_Hide : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (CH_HorrorManager.Instance.IsAllLightsOn)
-            {
-                Watchernpc.GetComponent<NavMeshAgent>().SetDestination(CH_Manager.Instance.GetFPSController().transform.position);
-            }
+            CH_EventManager.Instance.WatcherEvent();
         }
     }
 

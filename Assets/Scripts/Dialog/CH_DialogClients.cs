@@ -9,6 +9,7 @@ using TMPro;
 using System.Collections;
 public class CH_DialogClients : MonoBehaviour
 {
+    public static CH_DialogClients Instance { get; private set; }
     [Header("UI References")]
     [SerializeField] private GameObject dialogPanel;
     [SerializeField] private TMP_Text subtitleText;
@@ -26,16 +27,39 @@ public class CH_DialogClients : MonoBehaviour
         HideDialog();
     }
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     public void OpenDialogueFor(GameObject interactedObject)
     {
         if (interactedObject == null)
             return;
-
+        // check if is in queue to be able to display the dialog, if not, return
+        if (CH_Manager.Instance != null && !CH_AICharacterQueueManager.Instance.IsInQueue(interactedObject)) {
+            Debug.LogWarning($"Interacted object {interactedObject.name} is not in the queue. Dialogue will not be displayed.");
+            return;
+        }
         CH_NPCSuspicionState suspicionState = interactedObject.GetComponentInParent<CH_NPCSuspicionState>() ?? interactedObject.GetComponent<CH_NPCSuspicionState>();
         if (suspicionState == null || suspicionState.SuspicionProfile == null)
             return;
 
-        ShowDialogue(suspicionState.SuspicionProfile);
+        if (!suspicionState.SuspicionProfile.IsFirstInteraction)
+        {
+            getHisNameAtFirstSight(suspicionState.SuspicionProfile);
+            Debug.Log($"First interaction with {suspicionState.SuspicionProfile.Id}. Displaying name and setting IsFirstInteraction to false.");
+            suspicionState.SuspicionProfile.IsFirstInteraction = true;
+            return;
+        } else {
+            ShowDialogue(suspicionState.SuspicionProfile);
+        }
 
         if (CH_Manager.Instance != null)
         {
@@ -43,6 +67,16 @@ public class CH_DialogClients : MonoBehaviour
         }
         CH_Manager.Instance?.SetCursorLockState(false);
 
+    }
+
+    public void getHisNameAtFirstSight(CH_NPCSuspicionProfile profile)
+    {
+        if (profile == null)
+            return;
+
+        SetSubtitle($"Hello, my name is {profile.Id}. I want to stay for some hours.");
+        HideDialogueButtons();
+        StartCoroutine(WaitAndHideSubtitleAndDialog(2f));
     }
 
     private void HideDialog()
@@ -103,7 +137,6 @@ public class CH_DialogClients : MonoBehaviour
         {
             dialogPanel.SetActive(true);
         }
-
         ShowDialogueButtons();
 
         if (subtitleText != null)

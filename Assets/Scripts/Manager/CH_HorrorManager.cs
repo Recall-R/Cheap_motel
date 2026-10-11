@@ -38,8 +38,8 @@ public class CH_HorrorManager : MonoBehaviour
         {
             lightSource.GetComponent<Light>().enabled = false;
             CH_SoundManager.instance.PlaySound("PowerOutage");
-            isAllLightsOn = false; // Update the flag to indicate that all lights are off
         }
+        isAllLightsOn = false; // Update the flag to indicate that all lights are off
     }
 
     public void TurnOffAllLightsAnim()
@@ -52,6 +52,16 @@ public class CH_HorrorManager : MonoBehaviour
             }
         }
     }
+    public void TurnOnAllLightsAnim()
+    {
+        if (electricalPanelAnimator != null)
+        {
+            if(!electricalPanelAnimator.GetBool("isOn"))
+            {
+                electricalPanelAnimator.SetBool("isOn", true);
+            }
+        }
+    }
 
 
     public void TurnOnAllLights()
@@ -59,9 +69,10 @@ public class CH_HorrorManager : MonoBehaviour
         foreach (GameObject lightSource in allLightSources)
         {
             lightSource.GetComponent<Light>().enabled = true;
-            isAllLightsOn = true; // Update the flag to indicate that all lights are on
             CH_EventManager.Instance.IsBusy = false;
         }
+        isAllLightsOn = true; // Update the flag to indicate that all lights are on
+        CH_RenderingMonitor.Instance.IsMonitorUIActive = true;
     }
 
     public void TurnOffLightsInRoom(int roomIndex)

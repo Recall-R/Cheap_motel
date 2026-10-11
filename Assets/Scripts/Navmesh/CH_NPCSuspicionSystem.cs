@@ -28,6 +28,7 @@ namespace CH_AICharacter
         [SerializeField] private List<CH_NPCSuspicionTraitDefinition> visibleTraits = new List<CH_NPCSuspicionTraitDefinition>();
         [SerializeField] private int trueSuspicionScore;
         [SerializeField] private bool isRedHerring;
+        [SerializeField] private bool isFirstInteraction = false;
 
         public string Id { get => id; set => id = value; }
         public bool IsActuallyDangerous { get => isActuallyDangerous; set => isActuallyDangerous = value; }
@@ -36,6 +37,7 @@ namespace CH_AICharacter
         public List<CH_NPCSuspicionTraitDefinition> VisibleTraits { get => visibleTraits; set => visibleTraits = value; }
         public int TrueSuspicionScore { get => trueSuspicionScore; set => trueSuspicionScore = value; }
         public bool IsRedHerring { get => isRedHerring; set => isRedHerring = value; }
+        public bool IsFirstInteraction { get => isFirstInteraction; set => isFirstInteraction = value; }
     }
 
     [Serializable]

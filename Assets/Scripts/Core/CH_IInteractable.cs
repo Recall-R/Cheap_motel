@@ -137,7 +137,11 @@ public class CH_IInteractable : MonoBehaviour
                 Debug.LogWarning("CH_IInteractable: CH_RenderingMonitor.Instance este null. Verifică dacă componenta CH_RenderingMonitor este activă în scenă.");
                 return;
             }
-
+            if(CH_HorrorManager.Instance != null && !CH_HorrorManager.Instance.IsAllLightsOn)
+            {
+                Debug.LogWarning("CH_IInteractable: Nu se poate intra în modul de monitorizare deoarece curentul este oprit.");
+                return;
+            }
             CH_RenderingMonitor.Instance.OnEnterMonitor();
         }
         else if (interactionType == Interaction.ExitComputer)
@@ -152,10 +156,10 @@ public class CH_IInteractable : MonoBehaviour
         }
         else if (interactionType == Interaction.CharacterDialog)
         {
-            CH_DialogClients dialogClient = GetComponent<CH_DialogClients>() ?? GetComponentInParent<CH_DialogClients>() ?? FindAnyObjectByType<CH_DialogClients>();
-            if (dialogClient != null)
+            GameObject clientInQueue = CH_AICharacterQueueManager.Instance.GetFirstInQueue();
+            if (clientInQueue != null)
             {
-                dialogClient.OpenDialogueFor(gameObject);
+                CH_DialogClients.Instance.OpenDialogueFor(clientInQueue);
             }
         }
         else if (interactionType == Interaction.DoorSystem)
