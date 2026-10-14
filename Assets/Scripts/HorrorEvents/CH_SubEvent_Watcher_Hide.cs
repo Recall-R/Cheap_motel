@@ -8,6 +8,7 @@ public class CH_SubEvent_Watcher_Hide : MonoBehaviour
         this.GetComponent<Collider>().enabled = true;
         Watchernpc = CH_EventManager.Instance.GetGameObjectKillerFromRoom("watcher");
         Watchernpc.transform.position = this.transform.position;
+        Watchernpc.GetComponent<NavMeshAgent>().ResetPath();
     }
     void OnTriggerEnter(Collider other)
     {
