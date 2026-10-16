@@ -6722,7 +6722,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 170af2c4fa480004ea85d5d3acdcfc17, type: 2}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6859,7 +6859,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -6966,7 +6966,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.6226415, g: 0.61383057, b: 0.61383057, a: 0.5686275}
+      maxColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0.5254902}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -7030,8 +7030,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.01
-      minScalar: 0.01
+      scalar: 0.05
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7083,7 +7083,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
+      scalar: 0.07
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -7347,7 +7347,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 1000
+    maxNumParticles: 1200
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 1
     rotation3D: 0
@@ -7613,7 +7613,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 250
+      scalar: 350
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -9319,7 +9319,7 @@ ParticleSystem:
     magnitude:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.96
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -10480,7 +10480,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -12966,7 +12966,6 @@ MonoBehaviour:
   m_Script: {fileID: 1611420086}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &850084035
 Transform:
   m_ObjectHideFlags: 19
@@ -14817,7 +14816,6 @@ MonoBehaviour:
   m_Script: {fileID: 1336586208}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &1036923015
 Transform:
   m_ObjectHideFlags: 19
@@ -19133,7 +19131,7 @@ Transform:
   m_GameObject: {fileID: 1423827744}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -32.705, y: 0.81, z: -21.58}
+  m_LocalPosition: {x: -32.705, y: 0.81, z: -5.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19149,7 +19147,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.875, y: 7.4, z: 20.965}
+  m_Extents: {x: 0.8, y: 7.4, z: 36.41}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 0
@@ -26522,7 +26520,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4137274062715087178}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00000007450579, y: -0.07920218, z: 0.0000001370208, w: 0.99685854}
+  m_LocalRotation: {x: 0.0000000745058, y: -0.07920219, z: 0.00000013702082, w: 0.9968586}
   m_LocalPosition: {x: -0.053878445, y: 0.000000003598913, z: 0.0000000175447}
   m_LocalScale: {x: 0.9726985, y: 0.97269875, z: 0.9726985}
   m_ConstrainProportionsScale: 0
@@ -28230,7 +28228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283661554565667065}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.057893388, y: -0.053263295, z: 0.8673437, w: 0.49145314}
+  m_LocalRotation: {x: 0.05789339, y: -0.0532633, z: 0.8673438, w: 0.49145317}
   m_LocalPosition: {x: -0.1897536, y: -0.053619888, z: 0.0033298533}
   m_LocalScale: {x: 0.99999964, y: 0.9999998, z: 0.99999964}
   m_ConstrainProportionsScale: 0
@@ -32254,7 +32252,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3515986071537145122}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2311896, y: 0.12073539, z: -0.09433657, w: -0.96076787}
+  m_LocalRotation: {x: -0.23118961, y: 0.1207354, z: -0.09433658, w: -0.9607679}
   m_LocalPosition: {x: -0.0860303, y: -0.035094973, z: -0.008256815}
   m_LocalScale: {x: 1.0000001, y: 0.9999999, z: 1.0000001}
   m_ConstrainProportionsScale: 0
@@ -36172,7 +36170,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5372435707649898299}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06928308, y: 0.06927664, z: -0.016352504, w: -0.99505436}
+  m_LocalRotation: {x: -0.06928309, y: 0.069276646, z: -0.016352506, w: -0.9950544}
   m_LocalPosition: {x: -0.024524918, y: -0.000000028804696, z: -0.00000015974031}
   m_LocalScale: {x: 0.9999997, y: 1.0000001, z: 0.99999994}
   m_ConstrainProportionsScale: 0
@@ -39563,7 +39561,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905256660037111518}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0841816, y: 0.15679249, z: -0.06423127, w: -0.98193884}
+  m_LocalRotation: {x: -0.0841816, y: 0.1567925, z: -0.06423127, w: -0.9819389}
   m_LocalPosition: {x: -0.096884795, y: 0.012628773, z: 0.0041940603}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1}
   m_ConstrainProportionsScale: 0
@@ -41079,7 +41077,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7579514849512549107}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.006904478, y: 0.02635879, z: -0.025372352, w: -0.9993066}
+  m_LocalRotation: {x: 0.0069044787, y: 0.026358793, z: -0.025372354, w: -0.9993067}
   m_LocalPosition: {x: -0.03892285, y: 0.00000013767665, z: 0.00000012896471}
   m_LocalScale: {x: 1.0000002, y: 0.99999976, z: 1.0000001}
   m_ConstrainProportionsScale: 0

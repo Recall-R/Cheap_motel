@@ -213,7 +213,8 @@ public class CH_EventManager : MonoBehaviour
             }
 
             agent.SetDestination(player.position);
-
+            npcCharacter.GetComponent<Animator>().SetBool("Running", true); //get animator from killer and set running to true
+            agent.speed= 4.7f;
             yield return new WaitForSeconds(0.2f); // interval de update, nu la fiecare frame
         }
 
