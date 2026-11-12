@@ -180,4 +180,14 @@ public class CH_AICharacterQueueManager : MonoBehaviour
 
         movementDriver.LeaveQueueForExit(exitPoint.transform);
     }
+
+    public void CheckIfNPCIsInExitPoint()
+    {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        if(Vector3.Distance(CH_Manager.Instance.GetExitPointForNpcs().transform.position, this.transform.position) < 1f)
+        {
+            Debug.Log("NPC has reached the exit point.");
+            Destroy(this.gameObject);
+        }
+    }
 }

@@ -165,9 +165,16 @@ public class CH_IInteractable : MonoBehaviour
         else if (interactionType == Interaction.DoorSystem)
         {
             CH_DecisionDoor door = GetComponent<CH_DecisionDoor>() ?? GetComponentInParent<CH_DecisionDoor>();
+            Animator animator = GetComponent<Animator>() ?? GetComponentInParent<Animator>();
+            RoomIndexForObjects roomIndexForObjects = GetComponent<RoomIndexForObjects>();
             if (door != null)
             {
                 door.doorSystem();
+                if (!animator.GetBool("isOpen"))
+                {
+                    CH_RoomManager.Instance.SetRoomKnockedOnDoor(roomIndexForObjects.RoomIndex, false);
+                }
+
             }
         }
         else if (InteractionType == Interaction.RoomLightPanel)
@@ -217,11 +224,12 @@ public class CH_IInteractable : MonoBehaviour
         else if (interactionType == Interaction.KnockDoor)
         {
             CH_DecisionDoor door = GetComponent<CH_DecisionDoor>() ?? GetComponentInParent<CH_DecisionDoor>();
+            //get RoomIndexForObjects component to get the room index
+            RoomIndexForObjects roomIndexForObjects = GetComponent<RoomIndexForObjects>();
             if(door != null)
             {
                 door.knockDoor();
-                //need to implement this
-                //CH_RoomManager.Instance.SetRoomKnockedOnDoor(door.RoomIndex, true);
+                CH_RoomManager.Instance.SetRoomKnockedOnDoor(roomIndexForObjects.RoomIndex, true);
             }
         }
     }

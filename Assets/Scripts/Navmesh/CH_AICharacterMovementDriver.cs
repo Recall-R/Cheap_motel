@@ -145,6 +145,7 @@ public class CH_AICharacterMovementDriver : MonoBehaviour
         if (agent.pathPending || agent.isStopped)
             return;
 
+        queueManager?.CheckIfNPCIsInExitPoint();
         if (agent.remainingDistance <= arrivalDistance)
         {
             if (!hasReachedCurrentDestination)
